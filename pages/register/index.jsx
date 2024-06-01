@@ -121,7 +121,7 @@ const Register = () => {
         </aside>
         <section className="w-full md:w-3/4 xl:w-7/12 font-inter flex flex-col justify-center items-center gap-6 my-24 xl:my-0">
           <h1 className="font-bold text-3xl text-recipe-yellow-normal capitalize">
-            Let's get started
+            Let&apos;s get started
           </h1>
           <p className="font-normal text-lg text-recipe-gray">
             Create new account to access all features

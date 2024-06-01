@@ -70,13 +70,17 @@ const SearchPage = ({ keyword, data, status, error }) => {
   if (data.length == 0)
     return (
       <section className="px-10 py-36 sm:px-[135px] flex flex-col gap-6 justify-center items-center">
-        <h1 className="font-normal text-4xl">"{keyword}" not found!</h1>
+        <h1 className="font-normal text-4xl">
+          &quot;{keyword}&quot; not found!
+        </h1>
       </section>
     );
 
   return (
     <section className="px-10 pt-7 pb-24 sm:px-[135px] flex flex-col gap-12">
-      <h2 className=" font-normal text-4xl">Search Results for "{keyword}"</h2>
+      <h2 className=" font-normal text-4xl">
+        Search Results for &quot;{keyword}&quot;
+      </h2>
       <ListSearchRecipe recipes={data} />
     </section>
   );
