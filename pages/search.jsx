@@ -7,12 +7,17 @@ import Link from "next/link";
 import { useRecipesbySearch } from "../hooks";
 import style from "../styles/Search.module.css";
 import Button from "../components/base/Button";
+import { useState } from "react";
 
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("title");
-  const limitData = 20;
+  const [limitData, setLimitData] = useState(20);
   const { data, status, error } = useRecipesbySearch(keyword, limitData);
+
+  const handlePage = () => {
+    setLimitData((prevKey) => prevKey + 20);
+  };
 
   return (
     <Container>
@@ -32,23 +37,31 @@ const SearchResults = () => {
           status={status}
           error={error}
         />
-        <LoadMoreButton limit={limitData} data={data} />
+        <LoadMoreButton
+          limit={limitData}
+          data={data}
+          status={status}
+          callback={handlePage}
+        />
       </Container>
     </Container>
   );
 };
 
-const LoadMoreButton = ({ data, limit }) => {
-  if (data.length == limit) {
-    return (
-      <div className="mx-10 sm:mx-[135px] flex justify-center">
-        <Button
-          className={`bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white w-1/6 py-5`}
-        >
-          Load More
-        </Button>
-      </div>
-    );
+const LoadMoreButton = ({ data, limit, status, callback }) => {
+  if (status != "loading" && status != "failed") {
+    if (data.length != 0 && data.length == limit) {
+      return (
+        <div className="mx-10 sm:mx-[135px] flex justify-center">
+          <Button
+            onClick={callback}
+            className={`bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white w-1/6 py-5`}
+          >
+            Load More
+          </Button>
+        </div>
+      );
+    }
   }
 };
 
@@ -60,7 +73,7 @@ const SearchPage = ({ keyword, data, status, error }) => {
         <h1 className="font-normal text-4xl">Loading...</h1>
       </section>
     );
-  if (status == "error")
+  if (status == "failed")
     return (
       <section className="px-10 py-36 sm:px-[135px] flex flex-col gap-6 justify-center items-center">
         <h1 className="font-normal text-4xl text-red-800">Error: {error}</h1>
@@ -78,7 +91,7 @@ const SearchPage = ({ keyword, data, status, error }) => {
 
   return (
     <section className="px-10 pt-7 pb-24 sm:px-[135px] flex flex-col gap-12">
-      <h2 className=" font-normal text-4xl">
+      <h2 className=" font-normal text-2xl sm:text-4xl">
         Search Results for &quot;{keyword}&quot;
       </h2>
       <ListSearchRecipe recipes={data} />

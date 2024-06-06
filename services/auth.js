@@ -45,3 +45,25 @@ export async function login({ form }) {
     };
   }
 }
+
+// export async function logout({ form }) {
+//   try {
+//     const result = await axios.get(`${authUrl}/logout`, {
+//       email: form.email,
+//       password: form.password,
+//     });
+
+//     console.error("Result:", result);
+//     return {
+//       token: result.data?.data?.token,
+//       refreshToken: result.data?.data?.refreshToken,
+//       message: result.data?.message || "Success",
+//       status: result.data?.status,
+//     };
+//   } catch (error) {
+//     console.error("API Error:", error);
+//     return {
+//       message: error.response?.data?.message || "An error occurred",
+//     };
+//   }
+// }

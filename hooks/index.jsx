@@ -27,7 +27,7 @@ export function useRecipesbySearch(keyword, limit = 6, page = 1) {
     return () => {
       ignore = true;
     };
-  }, [keyword]);
+  }, [keyword, limit, page]);
 
   return { data, status, error };
 }

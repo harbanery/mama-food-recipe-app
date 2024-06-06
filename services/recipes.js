@@ -93,6 +93,56 @@ export async function getSavedRecipes({ token }) {
   }
 }
 
+export async function saveRecipe({ id, token }) {
+  // console.log(data.title);
+  try {
+    const result = await axios.post(
+      `${recipeUrl}/save`,
+      {
+        recipe_id: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.error("Result:", result);
+    return {
+      message: result.data?.message || "Success",
+      status: result.status,
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+    return {
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+}
+
+export async function deleteSaveRecipe({ id, token }) {
+  // console.log(data.title);
+  try {
+    const result = await axios.delete(`${recipeUrl}/save/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.error("Result:", result);
+    return {
+      message: result.data?.message || "Success",
+      status: result.status,
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+    return {
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+}
+
 export async function getLikedRecipes({ token }) {
   try {
     const result = await axios.get(`${recipeUrl}/like`, {
@@ -105,6 +155,56 @@ export async function getLikedRecipes({ token }) {
       data: result.data.data,
       message: result.data?.message || "Success",
       status: result.data?.status || 200,
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+    return {
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+}
+
+export async function likeRecipe({ id, token }) {
+  // console.log(data.title);
+  try {
+    const result = await axios.post(
+      `${recipeUrl}/like`,
+      {
+        recipe_id: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.error("Result:", result);
+    return {
+      message: result.data?.message || "Success",
+      status: result.status,
+    };
+  } catch (error) {
+    console.error("API Error:", error);
+    return {
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+}
+
+export async function deleteLikeRecipe({ id, token }) {
+  // console.log(data.title);
+  try {
+    const result = await axios.delete(`${recipeUrl}/like/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.error("Result:", result);
+    return {
+      message: result.data?.message || "Success",
+      status: result.status,
     };
   } catch (error) {
     console.error("API Error:", error);

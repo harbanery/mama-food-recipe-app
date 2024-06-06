@@ -8,6 +8,26 @@ import * as yup from "yup";
 import { register } from "../../services/auth";
 import { useRouter } from "next/router";
 import Alert from "../../components/base/Alert";
+import { parseCookies } from "../../utils/cookies";
+
+export const getServerSideProps = async (context) => {
+  const { req } = context;
+  const cookies = parseCookies(req.headers.cookie);
+  const token = cookies.token || null;
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 const Register = () => {
   const router = useRouter();
@@ -48,6 +68,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const [formAgreed, setFormAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,13 +84,26 @@ const Register = () => {
     });
   };
 
+  const handleChangeCheckbox = (e) => {
+    setFormAgreed(e.target.checked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
 
     try {
       await schema.validate(form, { abortEarly: false });
-      console.log("Form is valid, submitting data...");
+      // console.log("Form is valid, submitting data...");
+
+      if (!formAgreed) {
+        setAlert({
+          status: "failed",
+          message: `You should agree terms & conditions!`,
+        });
+        setAlertKey((prevKey) => prevKey + 1);
+        return;
+      }
 
       try {
         const { message } = await register({ form });
@@ -119,7 +153,7 @@ const Register = () => {
             />
           </div>
         </aside>
-        <section className="w-full md:w-3/4 xl:w-7/12 font-inter flex flex-col justify-center items-center gap-6 my-24 xl:my-0">
+        <section className="w-full md:w-3/4 xl:w-7/12 font-inter flex flex-col justify-center items-center gap-6 my-24 2xl:my-0">
           <h1 className="font-bold text-3xl text-recipe-yellow-normal capitalize">
             Let&apos;s get started
           </h1>
@@ -178,17 +212,9 @@ const Register = () => {
             >
               Password
             </InputAuth>
-            <div className="flex gap-2">
-              <input
-                id="checkbox"
-                className="accent-recipe-yellow-normal"
-                type="checkbox"
-                name=""
-              />
-              <label htmlFor="checkbox" className=" cursor-pointer">
-                I agree to terms & conditions
-              </label>
-            </div>
+            <InputAuth type={`checkbox`} onChange={handleChangeCheckbox}>
+              I agree to terms & conditions
+            </InputAuth>
 
             <Button
               className={`w-full h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}

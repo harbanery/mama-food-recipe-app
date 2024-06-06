@@ -15,7 +15,7 @@ const Alert = ({ status = "idle", message, count }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 w-1/5 m-10 ${
+      className={`fixed top-0 right-0 w-3/4 min-[520px]:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 m-10 ${
         status == "success" && `bg-[#36a430ca]`
       } ${
         status == "failed" && `bg-[#c52424ca]`

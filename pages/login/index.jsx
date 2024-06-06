@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { login } from "../../services/auth";
-import { insertToken } from "../../utils/cookies";
+import { insertToken, parseCookies } from "../../utils/cookies";
 import { useRouter } from "next/navigation";
 import Container from "../../components/base/Container";
 import Head from "next/head";
@@ -9,6 +9,25 @@ import InputAuth from "../../components/base/Input/auth";
 import Link from "next/link";
 import * as yup from "yup";
 import Alert from "../../components/base/Alert";
+
+export const getServerSideProps = async (context) => {
+  const { req } = context;
+  const cookies = parseCookies(req.headers.cookie);
+  const token = cookies.token || null;
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 const Login = () => {
   const router = useRouter();
@@ -30,6 +49,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [formAgreed, setFormAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,10 +65,23 @@ const Login = () => {
     });
   };
 
+  const handleChangeCheckbox = (e) => {
+    setFormAgreed(e.target.checked);
+  };
+
   const handleSubmit = async () => {
     try {
       await schema.validate(form, { abortEarly: false });
-      console.log("Form is valid, submitting data...");
+      // console.log("Form is valid, submitting data...");
+
+      if (!formAgreed) {
+        setAlert({
+          status: "failed",
+          message: `You should agree terms & conditions!`,
+        });
+        setAlertKey((prevKey) => prevKey + 1);
+        return;
+      }
 
       try {
         const { token, refreshToken, message, status } = await login({ form });
@@ -136,17 +169,9 @@ const Login = () => {
             >
               Password
             </InputAuth>
-            <div className="flex gap-2">
-              <input
-                id="checkbox"
-                className="accent-recipe-yellow-normal"
-                type="checkbox"
-                name=""
-              />
-              <label htmlFor="checkbox" className=" cursor-pointer">
-                I agree to terms & conditions
-              </label>
-            </div>
+            <InputAuth type={`checkbox`} onChange={handleChangeCheckbox}>
+              I agree to terms & conditions
+            </InputAuth>
             <Button
               className={`w-full h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
               onClick={handleSubmit}

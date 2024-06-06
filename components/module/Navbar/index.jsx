@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { deleteToken, getToken } from "../../../utils/cookies";
 import Button from "../../base/Button";
+import { BiChevronDown } from "react-icons/bi";
 
-const Navbar = ({ className }) => {
+const Navbar = ({ className, home = false }) => {
   const [loggedStatus, setLoggedStatus] = useState(false);
   const pathname = usePathname();
 
@@ -17,23 +18,19 @@ const Navbar = ({ className }) => {
   }, []);
 
   return (
-    <nav
-      className={clsx(
-        "max-w-[1920px] w-full z-[9999] px-10 sm:px-28 py-12",
-        className
-      )}
-    >
+    <nav className={clsx("w-full z-[9999] px-10 sm:px-28 py-12", className)}>
       <div className="flex justify-between ">
         <div className="flex font-medium gap-12 lg:gap-24 text-lg items-center text-recipe-blue">
           <NavbarAuth logged_status={loggedStatus} pathname={pathname} />
         </div>
-        <UserAuth logged_status={loggedStatus} />
+        <UserAuth logged_status={loggedStatus} home={home} />
       </div>
     </nav>
   );
 };
 
 const NavbarAuth = ({ logged_status, pathname }) => {
+  const [visible, setVisible] = useState(false);
   return (
     <>
       <Link
@@ -47,7 +44,19 @@ const NavbarAuth = ({ logged_status, pathname }) => {
         Home
       </Link>
       {logged_status && (
-        <>
+        <Button
+          onClick={() => (visible ? setVisible(false) : setVisible(true))}
+          className={`block min-[520px]:hidden text-2xl`}
+        >
+          <BiChevronDown />
+        </Button>
+      )}
+      {logged_status && (
+        <div
+          className={`bg-recipe-yellow-normal min-[520px]:bg-transparent ${
+            visible ? `flex` : `hidden`
+          } min-[520px]:flex p-3 min-[520px]:p-0 rounded-md shadow-md min-[520px]:shadow-none absolute min-[520px]:static top-[104px] min-[520px]:top-0 flex-col min-[520px]:flex-row gap-3 min-[520px]:gap-12 lg:gap-24`}
+        >
           <Link
             className={`${
               pathname === "/recipe/add"
@@ -55,6 +64,7 @@ const NavbarAuth = ({ logged_status, pathname }) => {
                 : "hover:border-b-[1.5px] hover:border-recipe-blue"
             } transition duration-300`}
             href={`/recipe/add`}
+            onClick={() => setVisible(false)}
           >
             Add Recipe
           </Link>
@@ -65,16 +75,17 @@ const NavbarAuth = ({ logged_status, pathname }) => {
                 : "hover:border-b-[1.5px] hover:border-recipe-blue"
             } transition duration-300`}
             href={`/profile`}
+            onClick={() => setVisible(false)}
           >
             Profile
           </Link>
-        </>
+        </div>
       )}
     </>
   );
 };
 
-const UserAuth = ({ logged_status }) => {
+const UserAuth = ({ logged_status, home }) => {
   const handleLogout = () => {
     deleteToken();
     window.location.href = "/login";
@@ -84,7 +95,11 @@ const UserAuth = ({ logged_status }) => {
     <>
       {!logged_status ? (
         <Link href={`/login`}>
-          <Button className=" flex justify-between items-center gap-2 font-normal text-light text-recipe-blue xl:text-white">
+          <Button
+            className={`flex justify-between items-center gap-2 font-normal text-light text-recipe-blue ${
+              home && `xl:text-white`
+            }`}
+          >
             <div className="w-[52px]">
               <img
                 className="w-full h-auto"

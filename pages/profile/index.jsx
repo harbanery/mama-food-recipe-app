@@ -3,10 +3,19 @@ import Container from "../../components/base/Container";
 import Head from "next/head";
 import Navbar from "../../components/module/Navbar";
 import Footer from "../../components/module/Footer";
-import { BiNavigation, BiPencil, BiTrash } from "react-icons/bi";
+import {
+  BiBookmark,
+  BiChevronDown,
+  BiLike,
+  BiNavigation,
+  BiPencil,
+  BiTrash,
+} from "react-icons/bi";
 import Button from "../../components/base/Button";
 import {
+  deleteLikeRecipe,
   deleteRecipe,
+  deleteSaveRecipe,
   getLikedRecipes,
   getMyRecipes,
   getSavedRecipes,
@@ -20,6 +29,15 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const cookies = parseCookies(req.headers.cookie);
   const token = cookies.token || null;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
   try {
     // Fetch data in parallel
@@ -67,6 +85,7 @@ export async function getServerSideProps(context) {
 
 const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
   const [recipeMenu, setRecipeMenu] = useState(`self`);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Container>
@@ -90,9 +109,26 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
           </div>
           <h1 className="font-medium text-2xl ">{user.name}</h1>
         </section>
-        <section className="pt-24">
-          <ul className="mx-[143px] flex items-center gap-24 font-medium text-2xl text-recipe-corral">
-            <li>
+        <section className="pt-24 relative">
+          <ul className="mx-10 sm:mx-[143px] flex justify-around min-[520px]:justify-between xl:justify-start items-center gap-12 min-[520px]:gap-16 lg:gap-24 font-medium text-xl sm:text-2xl text-recipe-corral">
+            <li className={`block md:hidden`}>
+              <Button className={`text-black`}>
+                {recipeMenu == `self` && `My Recipe`}
+                {recipeMenu == `saved` && `Saved Recipe`}
+                {recipeMenu == `liked` && `Liked Recipe`}
+              </Button>
+            </li>
+            <li className={`block md:hidden`}>
+              <Button>
+                <BiChevronDown
+                  onClick={() =>
+                    visible === false ? setVisible(true) : setVisible(false)
+                  }
+                  className="text-4xl"
+                />
+              </Button>
+            </li>
+            <li className=" hidden md:block">
               <Button
                 className={`${
                   recipeMenu === `self` ? `text-black` : `hover:text-black`
@@ -102,7 +138,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
                 My Recipe
               </Button>
             </li>
-            <li>
+            <li className=" hidden md:block">
               <Button
                 className={`${
                   recipeMenu === `saved` ? `text-black` : `hover:text-black`
@@ -112,7 +148,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
                 Saved Recipe
               </Button>
             </li>
-            <li>
+            <li className=" hidden md:block">
               <Button
                 className={`${
                   recipeMenu === `liked` ? `text-black` : `hover:text-black`
@@ -123,12 +159,53 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
               </Button>
             </li>
           </ul>
+          {visible && (
+            <div
+              className={`block md:hidden px-10 sm:px-[143px] absolute w-full z-50`}
+            >
+              <div className="w-full bg-recipe-yellow-normal rounded-lg shadow-lg font-medium text-xl text-recipe-dark ">
+                <Button
+                  onClick={() => {
+                    setRecipeMenu(`self`);
+                    setVisible(false);
+                  }}
+                  className={`${
+                    recipeMenu === `self` && `hidden`
+                  } w-full p-5 hover:text-black`}
+                >
+                  My Recipe
+                </Button>
+                <Button
+                  onClick={() => {
+                    setRecipeMenu(`saved`);
+                    setVisible(false);
+                  }}
+                  className={`${
+                    recipeMenu === `saved` && `hidden`
+                  } w-full p-5 hover:text-black`}
+                >
+                  Saved Recipe
+                </Button>
+                <Button
+                  onClick={() => {
+                    setRecipeMenu(`liked`);
+                    setVisible(false);
+                  }}
+                  className={`${
+                    recipeMenu === `liked` && `hidden`
+                  } w-full p-5 hover:text-black`}
+                >
+                  Liked Recipe
+                </Button>
+              </div>
+            </div>
+          )}
           <div className="border border-[#DFDFDF] my-8" />
           {recipeMenu === `self` && (
             <MyRecipe myRecipes={myRecipes} token={token} />
           )}
           {recipeMenu === `saved` && (
-            <SavedRecipe savedRecipes={savedRecipes} />
+            <SavedRecipe savedRecipes={savedRecipes} token={token} />
           )}
           {recipeMenu === `liked` && (
             <LikedRecipe likedRecipes={likedRecipes} />
@@ -161,12 +238,23 @@ const MyRecipe = ({ myRecipes = [], token }) => {
     try {
       const result = await deleteRecipe({ id, token });
 
+      if (result.message === "Internal Server Error") {
+        setAlert({
+          status: "failed",
+          message:
+            "You can't delete this recipe because someone liked or saved this recipe.",
+        });
+        setAlertKey((prevKey) => prevKey + 1);
+        return;
+      }
+
       setAlert({
         status: "success",
         message: result.message,
       });
+      setAlertKey((prevKey) => prevKey + 1);
 
-      router.replace(router.asPath);
+      router.replace(router.asPath, undefined, { scroll: false });
     } catch (error) {
       setAlert({
         status: "failed",
@@ -178,18 +266,20 @@ const MyRecipe = ({ myRecipes = [], token }) => {
 
   return (
     <div
-      className={`mx-[136px] flex flex-wrap ${
+      className={`mx-10 sm:mx-[136px] flex flex-wrap ${
         myRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
       <Alert status={alert.status} message={alert.message} count={alertKey} />
       {myRecipes.length == 0 ? (
-        <h1 className="font-medium text-6xl my-24">Not Available</h1>
+        <h1 className="font-medium text-3xl md:text-6xl my-24">
+          Not Available
+        </h1>
       ) : (
         myRecipes.map((recipe) => (
           <div
             key={recipe.id}
-            className=" w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
           >
             <img
               className="w-full h-full object-cover object-center"
@@ -230,51 +320,165 @@ const MyRecipe = ({ myRecipes = [], token }) => {
   );
 };
 
-const SavedRecipe = ({ savedRecipes = [] }) => {
+const SavedRecipe = ({ savedRecipes = [], token }) => {
+  const router = useRouter();
+  const [alert, setAlert] = useState({
+    status: `idle`,
+    message: ``,
+  });
+  const [alertKey, setAlertKey] = useState(0);
+
+  const handleRead = (id) => {
+    router.push(`/recipe/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await deleteSaveRecipe({ id, token });
+
+      setAlert({
+        status: "success",
+        message: result.message,
+      });
+      setAlertKey((prevKey) => prevKey + 1);
+
+      router.replace(router.asPath);
+    } catch (error) {
+      setAlert({
+        status: "failed",
+        message: error.message,
+      });
+      setAlertKey((prevKey) => prevKey + 1);
+    }
+  };
+
   return (
     <div
-      className={`mx-[136px] flex flex-wrap ${
+      className={`mx-10 sm:mx-[136px] flex flex-wrap ${
         savedRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
+      <Alert status={alert.status} message={alert.message} count={alertKey} />
       {savedRecipes.length == 0 ? (
-        <h1 className="font-medium text-6xl my-24">Not Available</h1>
+        <h1 className="font-medium text-3xl md:text-6xl my-24">
+          Not Available
+        </h1>
       ) : (
-        <div className=" w-[23%] h-64 rounded-[10px] overflow-hidden relative">
-          <img
-            className="w-full h-full object-cover object-center"
-            src="/assets/Rectangle 313.png"
-            alt=""
-          />
-          <span className="absolute left-5 bottom-5 rounded-[10px] bg-[#ffffffd8] p-2 leading-10 text-recipe-dark">
-            Saved Recipe
-          </span>
-        </div>
+        savedRecipes.map((save) => (
+          <div
+            key={save.id}
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+          >
+            <img
+              className="w-full h-full object-cover object-center"
+              src={
+                save.recipe.image && save.recipe.image.startsWith("https://")
+                  ? save.recipe.image
+                  : `/assets/icons/Default_Recipe_Image.png`
+              }
+              alt={save.recipe.title}
+            />
+            <span className="absolute left-0 bottom-0 rounded-[10px] bg-[#ffffffd8] p-2 m-5 text-recipe-dark">
+              {save.recipe.title}
+            </span>
+            <div className="absolute right-0 top-0 m-3 flex justify-end gap-2">
+              <Button
+                className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
+                onClick={() => handleRead(save.recipe_id)}
+              >
+                <BiNavigation className="mx-auto text-2xl" />
+              </Button>
+              <Button
+                className={`w-10 h-10 border bg-recipe-yellow-normal hover:bg-recipe-yellow-dark border-recipe-yellow-normal text-white `}
+                onClick={() => handleDelete(save.id)}
+              >
+                <BiBookmark className="mx-auto text-2xl" />
+              </Button>
+            </div>
+          </div>
+        ))
       )}
     </div>
   );
 };
 
-const LikedRecipe = ({ likedRecipes = [] }) => {
+const LikedRecipe = ({ likedRecipes = [], token }) => {
+  const router = useRouter();
+  const [alert, setAlert] = useState({
+    status: `idle`,
+    message: ``,
+  });
+  const [alertKey, setAlertKey] = useState(0);
+
+  const handleRead = (id) => {
+    router.push(`/recipe/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await deleteLikeRecipe({ id, token });
+
+      setAlert({
+        status: "success",
+        message: result.message,
+      });
+      setAlertKey((prevKey) => prevKey + 1);
+
+      router.replace(router.asPath, undefined, { scroll: false });
+    } catch (error) {
+      setAlert({
+        status: "failed",
+        message: error.message,
+      });
+      setAlertKey((prevKey) => prevKey + 1);
+    }
+  };
+
   return (
     <div
-      className={`mx-[136px] flex flex-wrap ${
+      className={`mx-10 sm:mx-[136px] flex flex-wrap ${
         likedRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
+      <Alert status={alert.status} message={alert.message} count={alertKey} />
       {likedRecipes.length == 0 ? (
-        <h1 className="font-medium text-6xl my-24">Not Available</h1>
+        <h1 className="font-medium text-3xl md:text-6xl my-24">
+          Not Available
+        </h1>
       ) : (
-        <div className=" w-[23%] h-64 rounded-[10px] overflow-hidden relative">
-          <img
-            className="w-full h-full object-cover object-center"
-            src="/assets/Rectangle 314.png"
-            alt=""
-          />
-          <span className="absolute left-5 bottom-5 rounded-[10px] bg-[#ffffffd8] p-2 leading-10 text-recipe-dark">
-            Liked Recipe
-          </span>
-        </div>
+        likedRecipes.map((like) => (
+          <div
+            key={like.id}
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+          >
+            <img
+              className="w-full h-full object-cover object-center"
+              src={
+                like.recipe.image && like.recipe.image.startsWith("https://")
+                  ? like.recipe.image
+                  : `/assets/icons/Default_Recipe_Image.png`
+              }
+              alt={like.recipe.title}
+            />
+            <span className="absolute left-0 bottom-0 rounded-[10px] bg-[#ffffffd8] p-2 m-5 text-recipe-dark">
+              {like.recipe.title}
+            </span>
+            <div className="absolute right-0 top-0 m-3 flex justify-end gap-2">
+              <Button
+                className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
+                onClick={() => handleRead(like.recipe_id)}
+              >
+                <BiNavigation className="mx-auto text-2xl" />
+              </Button>
+              <Button
+                className={`w-10 h-10 border bg-recipe-yellow-normal hover:bg-recipe-yellow-dark border-recipe-yellow-normal text-white `}
+                onClick={() => handleDelete(like.id)}
+              >
+                <BiLike className="mx-auto text-2xl" />
+              </Button>
+            </div>
+          </div>
+        ))
       )}
     </div>
   );
