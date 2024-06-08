@@ -2,14 +2,12 @@ import { formatDistanceToNow, format } from "date-fns";
 
 export const formatDistance = (dateString) => {
   if (!dateString) {
-    // Handling empty or null input
     return "Invalid date";
   }
 
   const date = new Date(dateString);
 
   if (isNaN(date.getTime())) {
-    // Handling invalid date string
     return "Invalid date";
   }
 

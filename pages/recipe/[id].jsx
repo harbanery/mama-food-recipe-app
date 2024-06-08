@@ -19,6 +19,13 @@ import Alert from "../../components/base/Alert";
 import { useState } from "react";
 import { parseCookies } from "../../utils/cookies";
 import Input from "../../components/base/Input";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  likeAction,
+  saveAction,
+  unlikeAction,
+  unsaveAction,
+} from "../../store/actions/recipeActions";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -77,11 +84,12 @@ export async function getServerSideProps(context) {
 
 const RecipePage = ({ recipe, token, savedData, likedData }) => {
   const router = useRouter();
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
+  const dispatch = useDispatch();
+  // const [alert, setAlert] = useState({
+  //   status: `idle`,
+  //   message: ``,
+  // });
+  // const [alertKey, setAlertKey] = useState(0);
 
   const handleSave = async (id) => {
     if (!token) {
@@ -90,41 +98,43 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
     }
 
     if (!savedData) {
-      try {
-        const result = await saveRecipe({ id, token });
+      dispatch(saveAction(id, token, router));
+      // try {
+      //   const result = await saveRecipe({ id, token });
 
-        setAlert({
-          status: "success",
-          message: result.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
+      //   setAlert({
+      //     status: "success",
+      //     message: result.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
 
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
+      //   router.replace(router.asPath, undefined, { scroll: false });
+      // } catch (error) {
+      //   setAlert({
+      //     status: "failed",
+      //     message: error.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
+      // }
     } else {
-      try {
-        const result = await deleteSaveRecipe({ id, token });
+      dispatch(unsaveAction(id, token, router));
+      //   try {
+      //     const result = await deleteSaveRecipe({ id, token });
 
-        setAlert({
-          status: "success",
-          message: result.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
+      //     setAlert({
+      //       status: "success",
+      //       message: result.message,
+      //     });
+      //     setAlertKey((prevKey) => prevKey + 1);
 
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
+      //     router.replace(router.asPath, undefined, { scroll: false });
+      //   } catch (error) {
+      //     setAlert({
+      //       status: "failed",
+      //       message: error.message,
+      //     });
+      //     setAlertKey((prevKey) => prevKey + 1);
+      //   }
     }
   };
 
@@ -135,62 +145,51 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
     }
 
     if (!likedData) {
-      try {
-        const result = await likeRecipe({ id, token });
+      dispatch(likeAction(id, token, router));
+      // try {
+      //   const result = await likeRecipe({ id, token });
 
-        setAlert({
-          status: "success",
-          message: result.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
+      //   setAlert({
+      //     status: "success",
+      //     message: result.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
 
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
+      //   router.replace(router.asPath, undefined, { scroll: false });
+      // } catch (error) {
+      //   setAlert({
+      //     status: "failed",
+      //     message: error.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
+      // }
     } else {
-      try {
-        const result = await deleteLikeRecipe({ id, token });
+      dispatch(unlikeAction(id, token, router));
+      // try {
+      //   const result = await deleteLikeRecipe({ id, token });
 
-        setAlert({
-          status: "success",
-          message: result.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
+      //   setAlert({
+      //     status: "success",
+      //     message: result.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
 
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
+      //   router.replace(router.asPath, undefined, { scroll: false });
+      // } catch (error) {
+      //   setAlert({
+      //     status: "failed",
+      //     message: error.message,
+      //   });
+      //   setAlertKey((prevKey) => prevKey + 1);
+      // }
     }
   };
-
-  // dummy data
-  const data = {
-    id: `1`,
-    title: `Healthy Bone Broth Ramen (Quick & Easy)`,
-    image: `/assets/Rectangle 313.png`,
-    description: `- 2 eggs \n- 2 tbsp mayonnaise \n- 3 slices bread \n- a little butter \n- ⅓ carton of cress \n- 2-3 slices of tomato or a lettuce leaf and a slice of ham or cheese \n- crisps , to serve`,
-    videos: [],
-    comments: [],
-  };
-  // ------------
 
   return (
     <Container>
       <Head>
         <title>Mama Recipe</title>
       </Head>
-
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
 
       <Navbar className={`absolute top-0`} />
 
@@ -214,7 +213,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
                     ? recipe.image
                     : `/assets/icons/Default_Recipe_Image.png`
                 }
-                alt={recipe?.title || data.title}
+                alt={recipe?.title || `Unknown`}
               />
               <div className="absolute right-0 lg:right-10 bottom-0 lg:bottom-10 m-2 sm:m-5 lg:m-0 flex justify-end gap-1 sm:gap-2">
                 <Button
@@ -257,9 +256,9 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
             </div>
           </div>
 
-          <Ingredients description={recipe.description || data.title} />
+          <Ingredients description={recipe.description} />
 
-          <VideoSteps data={data.videos} />
+          <VideoSteps data={[]} />
 
           <div className="flex flex-col justify-between items-center gap-12 mx-auto">
             <Input type="textarea" placeholder="Comment :" />
@@ -269,7 +268,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
               Send
             </Button>
 
-            <Comments data={data.comments} />
+            <Comments data={[]} />
           </div>
         </div>
       </Container>

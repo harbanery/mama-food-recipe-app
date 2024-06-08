@@ -27,7 +27,7 @@ export async function getAllRecipes({
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     throw {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -44,7 +44,7 @@ export async function getRecipeById({ id }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     throw {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -65,7 +65,7 @@ export async function getMyRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -86,7 +86,7 @@ export async function getSavedRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -108,13 +108,13 @@ export async function saveRecipe({ id, token }) {
       }
     );
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -130,13 +130,13 @@ export async function deleteSaveRecipe({ id, token }) {
       },
     });
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -157,7 +157,7 @@ export async function getLikedRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -179,13 +179,13 @@ export async function likeRecipe({ id, token }) {
       }
     );
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -201,13 +201,13 @@ export async function deleteLikeRecipe({ id, token }) {
       },
     });
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -231,14 +231,14 @@ export async function addRecipe({ data, token }) {
       }
     );
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       data: result.data.data,
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -262,14 +262,14 @@ export async function updateRecipe({ data, token }) {
       }
     );
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       data: result.data.data,
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -286,13 +286,13 @@ export async function deleteRecipe({ id, token }) {
       },
     });
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };

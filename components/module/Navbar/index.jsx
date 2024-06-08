@@ -5,6 +5,9 @@ import React, { useEffect, useState } from "react";
 import { deleteToken, getToken } from "../../../utils/cookies";
 import Button from "../../base/Button";
 import { BiChevronDown } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/dist/client/router";
+import { logoutAction } from "../../../store/actions/authActions";
 
 const Navbar = ({ className, home = false }) => {
   const [loggedStatus, setLoggedStatus] = useState(false);
@@ -86,9 +89,10 @@ const NavbarAuth = ({ logged_status, pathname }) => {
 };
 
 const UserAuth = ({ logged_status, home }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const handleLogout = () => {
-    deleteToken();
-    window.location.href = "/login";
+    dispatch(logoutAction(router));
   };
 
   return (

@@ -12,14 +12,14 @@ export async function uploadImage({ file }) {
       headers: { "content-type": "multipart/form-data" },
     });
 
-    console.error("Result:", result);
+    // console.error("Result:", result);
     return {
       url: result.data.data.file_url,
       message: result.data?.message || "Success",
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };

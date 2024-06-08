@@ -5,28 +5,20 @@ import Navbar from "../../components/module/Navbar";
 import Button from "../../components/base/Button";
 import Footer from "../../components/module/Footer";
 import { BiImage } from "react-icons/bi";
-import { uploadImage } from "../../services/assets";
-import { addRecipe } from "../../services/recipes";
 import { getToken } from "../../utils/cookies";
 import { useRouter } from "next/router";
 import Alert from "../../components/base/Alert";
-import * as yup from "yup";
 import Input from "../../components/base/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrorForms } from "../../store/actions/authActions";
+import { uploadImageAction } from "../../store/actions/assetActions";
+import { addRecipeAction } from "../../store/actions/recipeActions";
 
 const AddRecipe = () => {
   const router = useRouter();
   const { token } = getToken();
-  const schema = yup.object().shape({
-    title: yup.string().required("Title is required"),
-    description: yup.string().required("Description is required"),
-    image: yup.string().required("Image is required"),
-  });
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
-  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const { errors } = useSelector((state) => state.validation);
   const [recipe, setRecipe] = useState({
     title: "",
     description: "",
@@ -36,10 +28,7 @@ const AddRecipe = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    dispatch(clearErrorForms(name));
 
     setRecipe({
       ...recipe,
@@ -56,30 +45,7 @@ const AddRecipe = () => {
 
     const file = e.target.files[0];
 
-    try {
-      const { url } = await uploadImage({ file });
-
-      setAlert({
-        status: "success",
-        message: `Photo added successfully.`,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-      setRecipe({
-        ...recipe,
-        image: url,
-      });
-
-      setErrors({
-        ...errors,
-        image: "",
-      });
-    } catch (error) {
-      setAlert({
-        status: "failed",
-        message: error.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-    }
+    dispatch(uploadImageAction(file, recipe, setRecipe));
   };
 
   const handleSubmit = async () => {
@@ -88,41 +54,7 @@ const AddRecipe = () => {
       return;
     }
 
-    try {
-      await schema.validate(recipe, { abortEarly: false });
-
-      try {
-        const { data, message } = await addRecipe({
-          data: recipe,
-          token: token,
-        });
-
-        setAlert({
-          status: "success",
-          message: message,
-        });
-
-        router.push(`/recipe/${data.id}`);
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    } catch (err) {
-      if (err.inner) {
-        const validateErrors = err.inner.reduce((acc, curr) => {
-          return { ...acc, [curr.path]: curr.message };
-        }, {});
-        setErrors(validateErrors);
-        setAlert({
-          status: "failed",
-          message: `Recipe should not empty`,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    }
+    dispatch(addRecipeAction(recipe, token, router));
   };
 
   return (
@@ -130,8 +62,6 @@ const AddRecipe = () => {
       <Head>
         <title>Add Recipe - Mama Recipe</title>
       </Head>
-
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
 
       <Navbar className={`absolute top-0`} />
 

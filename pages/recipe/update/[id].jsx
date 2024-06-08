@@ -6,12 +6,14 @@ import Container from "../../../components/base/Container";
 import Navbar from "../../../components/module/Navbar";
 import Footer from "../../../components/module/Footer";
 import Button from "../../../components/base/Button";
-import { getRecipeById, updateRecipe } from "../../../services/recipes";
+import { getRecipeById } from "../../../services/recipes";
 import { parseCookies } from "../../../utils/cookies";
 import Alert from "../../../components/base/Alert";
-import * as yup from "yup";
-import { uploadImage } from "../../../services/assets";
 import Input from "../../../components/base/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrorForms } from "../../../store/actions/authActions";
+import { uploadImageAction } from "../../../store/actions/assetActions";
+import { updateRecipeAction } from "../../../store/actions/recipeActions";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -52,17 +54,8 @@ export async function getServerSideProps(context) {
 
 const UpdateRecipe = ({ token, recipe }) => {
   const router = useRouter();
-  const schema = yup.object().shape({
-    title: yup.string().required("Title is required"),
-    description: yup.string().required("Description is required"),
-    image: yup.string().required("Image is required"),
-  });
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
-  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const { errors } = useSelector((state) => state.validation);
   const [updatedRecipe, setUpdatedRecipe] = useState({
     id: recipe.id,
     title: recipe.title,
@@ -73,10 +66,7 @@ const UpdateRecipe = ({ token, recipe }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    dispatch(clearErrorForms(name));
 
     setUpdatedRecipe({
       ...updatedRecipe,
@@ -93,89 +83,17 @@ const UpdateRecipe = ({ token, recipe }) => {
 
     const file = e.target.files[0];
 
-    try {
-      const { url } = await uploadImage({ file });
-
-      console.log(url);
-      setUpdatedRecipe({
-        ...updatedRecipe,
-        image: url,
-      });
-
-      setErrors({
-        ...errors,
-        image: "",
-      });
-    } catch (error) {
-      setAlert({
-        status: "failed",
-        message: error.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-    }
+    dispatch(uploadImageAction(file, updatedRecipe, setUpdatedRecipe));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!token) {
       router.push(`/login`);
       return;
     }
 
-    try {
-      await schema.validate(updatedRecipe, { abortEarly: false });
-
-      try {
-        const { message } = await updateRecipe({
-          data: updatedRecipe,
-          token: token,
-        });
-
-        setAlert({
-          status: "success",
-          message: message,
-        });
-
-        router.push(`/profile`);
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    } catch (err) {
-      if (err.inner) {
-        const validateErrors = err.inner.reduce((acc, curr) => {
-          return { ...acc, [curr.path]: curr.message };
-        }, {});
-        setErrors(validateErrors);
-        setAlert({
-          status: "failed",
-          message: `Recipe should not empty`,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    }
-
-    // try {
-    //   const { message } = await updateRecipe({
-    //     data: updatedRecipe,
-    //     token: token,
-    //   });
-
-    //   setAlert({
-    //     status: "success",
-    //     message: message,
-    //   });
-
-    //   router.push(`/profile`);
-    // } catch (error) {
-    //   setAlert({
-    //     status: "failed",
-    //     message: error.message,
-    //   });
-    //   setAlertKey((prevKey) => prevKey + 1);
-    // }
+    dispatch(updateRecipeAction(updatedRecipe, token, router));
   };
 
   return (
@@ -183,8 +101,6 @@ const UpdateRecipe = ({ token, recipe }) => {
       <Head>
         <title>Update Recipe - Mama Recipe</title>
       </Head>
-
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
 
       <Navbar className={`absolute top-0`} />
 

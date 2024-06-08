@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { login } from "../../services/auth";
-import { insertToken, parseCookies } from "../../utils/cookies";
+import { parseCookies } from "../../utils/cookies";
 import { useRouter } from "next/navigation";
 import Container from "../../components/base/Container";
 import Head from "next/head";
 import Button from "../../components/base/Button";
 import InputAuth from "../../components/base/Input/auth";
 import Link from "next/link";
-import * as yup from "yup";
 import Alert from "../../components/base/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrorForms, loginAction } from "../../store/actions/authActions";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -31,20 +31,8 @@ export const getServerSideProps = async (context) => {
 
 const Login = () => {
   const router = useRouter();
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    password: yup.string().required("Password is required"),
-  });
-
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
-  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const { errors } = useSelector((state) => state.validation);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -54,10 +42,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    dispatch(clearErrorForms(name));
 
     setForm({
       ...form,
@@ -69,52 +54,9 @@ const Login = () => {
     setFormAgreed(e.target.checked);
   };
 
-  const handleSubmit = async () => {
-    try {
-      await schema.validate(form, { abortEarly: false });
-      // console.log("Form is valid, submitting data...");
-
-      if (!formAgreed) {
-        setAlert({
-          status: "failed",
-          message: `You should agree terms & conditions!`,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-        return;
-      }
-
-      try {
-        const { token, refreshToken, message, status } = await login({ form });
-
-        if (status === "success") {
-          setAlert({
-            status: "success",
-            message: message,
-          });
-          insertToken({ token, refreshToken });
-          router.push("/");
-        } else {
-          setAlert({
-            status: "failed",
-            message: message,
-          });
-          setAlertKey((prevKey) => prevKey + 1);
-        }
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    } catch (err) {
-      if (err.inner) {
-        const formErrors = err.inner.reduce((acc, curr) => {
-          return { ...acc, [curr.path]: curr.message };
-        }, {});
-        setErrors(formErrors);
-      }
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginAction(form, formAgreed, router));
   };
 
   return (
@@ -123,21 +65,19 @@ const Login = () => {
         <title>Login - Mama Recipe</title>
       </Head>
 
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
-
       <Container className={`flex`}>
         <aside className="hidden md:block md:w-1/4 xl:w-5/12">
           <div className="relative w-full h-screen">
             <img
               className="w-full h-full object-cover object-center"
               src="/assets/image 15.png"
-              alt="Background"
+              alt="bg_mama_recipe"
             />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-yellow-300 to-yellow-400 opacity-70" />
             <img
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               src="/assets/brands/Group 697.png"
-              alt="Mama Recipe"
+              alt="logo_mama_recipe"
             />
           </div>
         </aside>
@@ -186,7 +126,7 @@ const Login = () => {
             </Link>
             <div className="flex justify-center gap-1 font-medium text-sm">
               <span className="text-recipe-obsidian">
-                Don’t have an account?
+                Don&apos;t have an account?
               </span>
               <Link
                 href={`/register`}

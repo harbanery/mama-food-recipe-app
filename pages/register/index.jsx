@@ -9,6 +9,11 @@ import { register } from "../../services/auth";
 import { useRouter } from "next/router";
 import Alert from "../../components/base/Alert";
 import { parseCookies } from "../../utils/cookies";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearErrorForms,
+  registerAction,
+} from "../../store/actions/authActions";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -31,36 +36,8 @@ export const getServerSideProps = async (context) => {
 
 const Register = () => {
   const router = useRouter();
-  const schema = yup.object().shape({
-    name: yup.string().required("Name is required"),
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Phone number must be digits")
-      .required("Phone number is required"),
-    password: yup
-      .string()
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-      .matches(/[0-9]/, "Password must contain at least one digit")
-      .matches(
-        /[@$!%*?&#_]/,
-        "Password must contain at least one special character"
-      )
-      .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "Passwords must match")
-      .required("Confirm password is required"),
-  });
-
-  const [alert, setAlert] = useState({ status: "idle", message: "" });
-  const [alertKey, setAlertKey] = useState(0);
-  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const { errors } = useSelector((state) => state.validation);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -73,10 +50,7 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    dispatch(clearErrorForms(name));
 
     setForm({
       ...form,
@@ -88,45 +62,9 @@ const Register = () => {
     setFormAgreed(e.target.checked);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
-
-    try {
-      await schema.validate(form, { abortEarly: false });
-      // console.log("Form is valid, submitting data...");
-
-      if (!formAgreed) {
-        setAlert({
-          status: "failed",
-          message: `You should agree terms & conditions!`,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-        return;
-      }
-
-      try {
-        const { message } = await register({ form });
-        setAlert({
-          status: "success",
-          message: message,
-        });
-        router.replace("/login");
-      } catch (error) {
-        setAlert({
-          status: "failed",
-          message: error.message,
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-      }
-    } catch (err) {
-      if (err.inner) {
-        const formErrors = err.inner.reduce((acc, curr) => {
-          return { ...acc, [curr.path]: curr.message };
-        }, {});
-        setErrors(formErrors);
-      }
-    }
+    dispatch(registerAction(form, formAgreed, router));
   };
 
   return (
@@ -134,8 +72,6 @@ const Register = () => {
       <Head>
         <title>Sign Up - Mama Recipe</title>
       </Head>
-
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
 
       <Container className={`flex`}>
         <aside className="hidden md:block md:w-1/4 xl:w-5/12">

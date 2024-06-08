@@ -17,7 +17,7 @@ export async function getProfile({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    console.error("API Error:", error);
+    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
       status: error.response?.status || 500,

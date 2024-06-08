@@ -190,7 +190,7 @@ const NewestRecipe = ({ recipe }) => {
   return (
     <div className="flex flex-col lg:flex-row flex-nowrap justify-between gap-20 xl:gap-40 2xl:gap-60">
       <div className="w-full xl:w-1/2 relative">
-        <div className="w-full h-full overflow-hidden rounded-[20px]">
+        <div className="w-full h-full bg-white overflow-hidden rounded-[20px]">
           <img
             className="w-full h-full object-cover object-center"
             src={
@@ -244,7 +244,7 @@ const ListPopularRecipe = ({ recipes, page, limit }) => {
             }
             alt={recipe.title}
           />
-          <h2 className="absolute rounded-[15px] bg-[#ffffffd8] p-2 left-0 bottom-0 m-5 md:m-2 xl:m-5 2xl:m-10 font-medium text-base lg:text-lg xl:text-xl 2xl:text-[28px] xl:leading-10 text-recipe-dark ">
+          <h2 className="absolute rounded-[15px] bg-[#ffffffd8] p-2 left-0 bottom-0 m-5 md:m-2 xl:m-5 2xl:m-10 font-medium text-base lg:text-lg xl:text-xl 2xl:text-[28px] 2xl:leading-10 text-recipe-dark ">
             {recipe.title || `Unknown Recipe Name`}
           </h2>
         </Link>

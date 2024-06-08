@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 
-const SearchBar = ({ children, className }) => {
+const SearchBar = ({ className }) => {
   const [query, setQuery] = useState("");
   const router = useRouter();
 

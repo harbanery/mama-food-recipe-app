@@ -13,9 +13,6 @@ import {
 } from "react-icons/bi";
 import Button from "../../components/base/Button";
 import {
-  deleteLikeRecipe,
-  deleteRecipe,
-  deleteSaveRecipe,
   getLikedRecipes,
   getMyRecipes,
   getSavedRecipes,
@@ -24,6 +21,12 @@ import { getProfile } from "../../services/user";
 import { parseCookies } from "../../utils/cookies";
 import { useRouter } from "next/router";
 import Alert from "../../components/base/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteRecipeAction,
+  unlikeAction,
+  unsaveAction,
+} from "../../store/actions/recipeActions";
 
 export async function getServerSideProps(context) {
   const { req } = context;
@@ -208,7 +211,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
             <SavedRecipe savedRecipes={savedRecipes} token={token} />
           )}
           {recipeMenu === `liked` && (
-            <LikedRecipe likedRecipes={likedRecipes} />
+            <LikedRecipe likedRecipes={likedRecipes} token={token} />
           )}
         </section>
       </Container>
@@ -220,11 +223,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
 
 const MyRecipe = ({ myRecipes = [], token }) => {
   const router = useRouter();
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
+  const dispatch = useDispatch();
 
   const handleUpdate = (id) => {
     router.push(`/recipe/update/${id}`);
@@ -234,34 +233,8 @@ const MyRecipe = ({ myRecipes = [], token }) => {
     router.push(`/recipe/${id}`);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const result = await deleteRecipe({ id, token });
-
-      if (result.message === "Internal Server Error") {
-        setAlert({
-          status: "failed",
-          message:
-            "You can't delete this recipe because someone liked or saved this recipe.",
-        });
-        setAlertKey((prevKey) => prevKey + 1);
-        return;
-      }
-
-      setAlert({
-        status: "success",
-        message: result.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-
-      router.replace(router.asPath, undefined, { scroll: false });
-    } catch (error) {
-      setAlert({
-        status: "failed",
-        message: error.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-    }
+  const handleDelete = (id) => {
+    dispatch(deleteRecipeAction(id, token, router));
   };
 
   return (
@@ -270,7 +243,6 @@ const MyRecipe = ({ myRecipes = [], token }) => {
         myRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
       {myRecipes.length == 0 ? (
         <h1 className="font-medium text-3xl md:text-6xl my-24">
           Not Available
@@ -322,34 +294,14 @@ const MyRecipe = ({ myRecipes = [], token }) => {
 
 const SavedRecipe = ({ savedRecipes = [], token }) => {
   const router = useRouter();
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
+  const dispatch = useDispatch();
 
   const handleRead = (id) => {
     router.push(`/recipe/${id}`);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const result = await deleteSaveRecipe({ id, token });
-
-      setAlert({
-        status: "success",
-        message: result.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-
-      router.replace(router.asPath);
-    } catch (error) {
-      setAlert({
-        status: "failed",
-        message: error.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-    }
+  const handleDelete = (id) => {
+    dispatch(unsaveAction(id, token, router));
   };
 
   return (
@@ -358,7 +310,6 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
         savedRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
       {savedRecipes.length == 0 ? (
         <h1 className="font-medium text-3xl md:text-6xl my-24">
           Not Available
@@ -404,34 +355,14 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
 
 const LikedRecipe = ({ likedRecipes = [], token }) => {
   const router = useRouter();
-  const [alert, setAlert] = useState({
-    status: `idle`,
-    message: ``,
-  });
-  const [alertKey, setAlertKey] = useState(0);
+  const dispatch = useDispatch();
 
   const handleRead = (id) => {
     router.push(`/recipe/${id}`);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const result = await deleteLikeRecipe({ id, token });
-
-      setAlert({
-        status: "success",
-        message: result.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-
-      router.replace(router.asPath, undefined, { scroll: false });
-    } catch (error) {
-      setAlert({
-        status: "failed",
-        message: error.message,
-      });
-      setAlertKey((prevKey) => prevKey + 1);
-    }
+  const handleDelete = (id) => {
+    dispatch(unlikeAction(id, token, router));
   };
 
   return (
@@ -440,7 +371,6 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
         likedRecipes.length == 0 && `justify-center`
       } gap-8`}
     >
-      <Alert status={alert.status} message={alert.message} count={alertKey} />
       {likedRecipes.length == 0 ? (
         <h1 className="font-medium text-3xl md:text-6xl my-24">
           Not Available
