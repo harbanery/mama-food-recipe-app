@@ -41,11 +41,17 @@ My web-based application, **Mama Recipe**, is specifically designed for food ent
 
 [![Next][Next.js]][Next-url]
 [![React][React.js]][React-url]
+[![Tailwind][Tailwind]][Tailwind-url]
+[![Redux][Redux]][Redux-url]
 
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[Tailwind]: https://img.shields.io/badge/tailwindcss-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Redux]: https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white
+[Redux-url]: https://redux.js.org/
 
 ## Usage
 
