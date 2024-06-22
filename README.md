@@ -13,7 +13,7 @@
     <br />
     <a href="https://mama-recipe-food.vercel.app/" target="_blank">View Demo</a>
     ·
-    <a href="#" target="_blank" disabled>View Back-End Repo</a>
+    <a href="https://github.com/harbanery/be-mama-recipe-figma" target="_blank" disabled>View Back-End Repo</a>
   </p>
 </div>
 
@@ -28,7 +28,6 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#documentation">Documentation</a></li>
-    <li><a href="#domain-to-visit-pages">Domain to Visit Pages</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </details>
@@ -46,7 +45,7 @@ My web-based application, **Mama Recipe**, is specifically designed for food ent
 
 ## Usage
 
-This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as CLSX and ESLint to improve efficiency and maintain code consistency. I also used Axios for API calls, while date-fns and js-cookie manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
+This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as [clsx](https://www.npmjs.com/package/clsx) and ESLint to improve efficiency and maintain code consistency. I also used [Axios](https://axios-http.com/docs/intro) for API calls, while [date-fns](https://date-fns.org/) and [js-cookie](https://github.com/js-cookie/js-cookie) manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
 
 ## Documentation
 
@@ -56,58 +55,69 @@ Here are the pages that I am working on:
 
    <details>
       <summary>Show Image</summary>
+      <br>
       <img src="./public/screenshots/Login.png" alt="Login Page">
    </details>
 
 2. Register Page
 
-   ![Register Page](./public/screenshots/Register.png)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Register.png" alt="Register Page">
+   </details>
 
 3. Home Page
 
-   ![Home Page](./public/screenshots/Home.png)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Home.png" alt="Landing Page">
+   </details>
 
 4. Search Page
 
-   ![Search Page](./public/screenshots/Search.png)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Search.png" alt="Search Page">
+   </details>
 
 5. Detail Recipe Page
 
-   ![Detail Page](./public/screenshots/Detail%20Recipe.png)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page">
+   </details>
 
 6. Add Recipe Page
 
-   ![Add Recipe Page](./public/screenshots/Add%20Recipe.png)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page">
+   </details>
 
 7. Profile Page
 
-   ![Profile Page](./public/screenshots/Profile.png)
-
-## Domain to Visit Pages
-
-If you wish to view my website, please click the link provided below. Thank you very much for your interest and appreciation.
-
-[Click Here](https://mama-recipe-food.vercel.app/)
+   <details>
+      <summary>Show Image</summary>
+      <br>
+      <img src="./public/screenshots/Profile.png" alt="Profile Page">
+   </details>
 
 ## Reference
 
 Feel free to check it out:
 
-[Node.js](https://nodejs.org/en)
+- [Node.js](https://nodejs.org/en)
 
-[Axios](https://axios-http.com/docs/intro)
+- [React Dom Router](https://reactrouter.com/en/main)
 
-[React Dom Router](https://reactrouter.com/en/main)
+- [Vercel as Deployment](https://vercel.com/)
 
-[js-cookie](https://github.com/js-cookie/js-cookie)
-
-[date-fns](https://date-fns.org/)
-
-[clsx](https://www.npmjs.com/package/clsx)
-
-[Vercel as Deployment](https://vercel.com/)
-
-[Img Shields](https://shields.io)
+- [Img Shields](https://shields.io)
 
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
