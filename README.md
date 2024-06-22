@@ -51,61 +51,87 @@ This application is a portfolio that inspired from this [Figma template](https:/
 
 Here are the pages that I am working on:
 
-1. Login Page
+1.  Login Page
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Login.png" alt="Login Page">
-   </details>
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Login.png" alt="Login Page">
+    </details>
 
-2. Register Page
+2.  Register Page
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Register.png" alt="Register Page">
-   </details>
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Register.png" alt="Register Page">
+    </details>
 
-3. Home Page
+3.  Home Page
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Home.png" alt="Landing Page">
-   </details>
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Home.png" alt="Landing Page">
+    </details>
 
-4. Search Page
+4.  Browse Page
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Search.png" alt="Search Page">
-   </details>
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Browse.png" alt="Browse Page">
+    </details>
 
-5. Detail Recipe Page
+    In this page, there are features:
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page">
-   </details>
+    - Search Bar
 
-6. Add Recipe Page
+      <details>
+         <summary>Show/Hide Image</summary>
+         <br>
+         <img src="./public/screenshots/Browse-Search.png" alt="Browse Page">
+      </details>
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page">
-   </details>
+    - Sort & Order (Filter)
 
-7. Profile Page
+      <details>
+         <summary>Show/Hide Image</summary>
+         <br>
+         <img src="./public/screenshots/Browse-Sort&Order.png" alt="Browse Page">
+      </details>
 
-   <details>
-      <summary>Show Image</summary>
-      <br>
-      <img src="./public/screenshots/Profile.png" alt="Profile Page">
-   </details>
+    - Pagination
+
+      <details>
+         <summary>Show/Hide Image</summary>
+         <br>
+         <img src="./public/screenshots/Browse-Pagination.png" alt="Browse Page">
+      </details>
+
+5.  Detail Recipe Page
+
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page">
+    </details>
+
+6.  Add Recipe Page
+
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page">
+    </details>
+
+7.  Profile Page
+
+    <details>
+       <summary>Show/Hide Image</summary>
+       <br>
+       <img src="./public/screenshots/Profile.png" alt="Profile Page">
+    </details>
 
 ## Reference
 
