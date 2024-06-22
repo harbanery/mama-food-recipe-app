@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://github.com/harbanery/mama-food-recipe-app">
-    <img src="./public/github-icon.png" alt="Logo" width="200">
+    <img src="./public/brandicon.ico" alt="Logo" width="200">
   </a>
 
   <h1 align="center">Mama Recipe</h1>
