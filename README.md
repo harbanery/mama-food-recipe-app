@@ -42,6 +42,11 @@ My web-based application, **Mama Recipe**, is specifically designed for food ent
 [![Next][Next.js]][Next-url]
 [![React][React.js]][React-url]
 
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+
 ## Usage
 
 This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as CLSX and ESLint to improve efficiency and maintain code consistency. I also used Axios for API calls, while date-fns and js-cookie manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
