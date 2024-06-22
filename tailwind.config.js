@@ -26,21 +26,7 @@ module.exports = {
         },
         "recipe-blue": "#2E266F",
       },
-      animation: {
-        l5: "l5 1s infinite linear",
-      },
-      keyframes: {
-        l5: {
-          "100%": {
-            backgroundPosition: "right -40px top 0, center",
-          },
-        },
-      },
-      backgroundImage: {
-        "loader-gradient":
-          "linear-gradient(#25b09b 0 0) left -40px top 0/40px 20px, linear-gradient(#ddd 0 0) center/100% 50%",
-      },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/aspect-ratio")],
 };
