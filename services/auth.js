@@ -17,7 +17,6 @@ export async function register({ form }) {
       status: result.data?.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     throw {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -31,7 +30,6 @@ export async function login({ form }) {
       password: form.password,
     });
 
-    // console.error("Result:", result);
     return {
       token: result.data?.data?.token,
       refreshToken: result.data?.data?.refreshToken,
@@ -39,7 +37,6 @@ export async function login({ form }) {
       status: result.data?.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -50,13 +47,11 @@ export async function logout() {
   try {
     const result = await axios.get(`${authUrl}/logout`);
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.data?.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };

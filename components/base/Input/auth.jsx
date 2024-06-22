@@ -25,7 +25,7 @@ const InputAuth = ({ className, children, error, type, ...props }) => {
     <div className="w-full flex flex-col gap-3">
       <span className="font-medium text-base">{children}</span>
       <input
-        className="focus:border-recipe-yellow-normal focus:shadow-lg rounded-md border border-recipe-gray h-[64px] p-6 placeholder:text-recipe-gray outline-none"
+        className="focus-within:border-recipe-yellow-normal focus-within:shadow-lg rounded-md border border-recipe-gray h-[64px] p-6 placeholder:text-recipe-gray outline-none transition-all duration-300"
         type={type}
         {...props}
       />

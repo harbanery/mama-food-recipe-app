@@ -14,6 +14,7 @@ import {
   clearErrorForms,
   registerAction,
 } from "../../store/actions/authActions";
+import { BiArrowBack, BiRightArrowAlt } from "react-icons/bi";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -62,6 +63,14 @@ const Register = () => {
     setFormAgreed(e.target.checked);
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerAction(form, formAgreed, router));
@@ -83,17 +92,24 @@ const Register = () => {
             />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-yellow-300 to-yellow-400 opacity-70" />
             <img
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+              onClick={() => router.push("/")}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
               src="/assets/brands/Group 697.png"
               alt="Mama Recipe"
             />
           </div>
         </aside>
         <section className="w-full md:w-3/4 xl:w-7/12 font-inter flex flex-col justify-center items-center gap-6 my-24 2xl:my-0">
+          <Button
+            className={`absolute top-0 right-0 m-8 sm:m-10 p-1 text-4xl text-recipe-corral hover:text-recipe-dark sm:text-5xl first:rounded-[50%] hover:bg-recipe-yellow-normal hover:rotate-180 transition-all ease-in-out duration-300`}
+            onClick={handleBack}
+          >
+            <BiArrowBack />
+          </Button>
           <h1 className="font-bold text-3xl text-recipe-yellow-normal capitalize">
             Let&apos;s get started
           </h1>
-          <p className="font-normal text-lg text-recipe-gray">
+          <p className="font-normal text-center text-lg text-recipe-gray mx-5">
             Create new account to access all features
           </p>
           <div className="w-4/5 sm:w-3/5 2xl:w-2/5 flex flex-col gap-6 text-recipe-corral">
@@ -164,7 +180,7 @@ const Register = () => {
               </span>
               <Link
                 href={`/login`}
-                className="text-recipe-yellow-normal hover:text-recipe-yellow-dark"
+                className="text-recipe-yellow-normal hover:text-recipe-yellow-dark transition duration-200"
               >
                 Log in Here
               </Link>

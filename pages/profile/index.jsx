@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../components/base/Container";
 import Head from "next/head";
 import Navbar from "../../components/module/Navbar";
@@ -20,8 +20,7 @@ import {
 import { getProfile } from "../../services/user";
 import { parseCookies } from "../../utils/cookies";
 import { useRouter } from "next/router";
-import Alert from "../../components/base/Alert";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   deleteRecipeAction,
   unlikeAction,
@@ -43,7 +42,6 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    // Fetch data in parallel
     const [
       resultUser,
       resultMyRecipes,
@@ -56,7 +54,6 @@ export async function getServerSideProps(context) {
       getLikedRecipes({ token }),
     ]);
 
-    // Check for successful responses
     if (
       !resultUser ||
       !resultMyRecipes ||
@@ -90,6 +87,22 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
   const [recipeMenu, setRecipeMenu] = useState(`self`);
   const [visible, setVisible] = useState(false);
 
+  const handleClickOutside = (event) => {
+    const isDropdown = event.target.closest(".profile-dropdown-menu");
+    const isButton = event.target.closest(".profile-dropdown-button");
+
+    if (!isDropdown && !isButton) {
+      setVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <Container>
       <Head>
@@ -121,7 +134,11 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
                 {recipeMenu == `liked` && `Liked Recipe`}
               </Button>
             </li>
-            <li className={`block md:hidden`}>
+            <li
+              className={`profile-dropdown-button block md:hidden ${
+                visible ? `rotate-180` : `rotate-0`
+              } transition-transform ease-in-out duration-300`}
+            >
               <Button>
                 <BiChevronDown
                   onClick={() =>
@@ -166,7 +183,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
             <div
               className={`block md:hidden px-10 sm:px-[143px] absolute w-full z-50`}
             >
-              <div className="w-full bg-recipe-yellow-normal rounded-lg shadow-lg font-medium text-xl text-recipe-dark ">
+              <div className="profile-dropdown-menu w-full bg-recipe-yellow-normal rounded-lg shadow-lg font-medium text-xl text-recipe-dark ">
                 <Button
                   onClick={() => {
                     setRecipeMenu(`self`);
@@ -251,10 +268,10 @@ const MyRecipe = ({ myRecipes = [], token }) => {
         myRecipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
               src={
                 recipe.image && recipe.image.startsWith("https://")
                   ? recipe.image
@@ -318,10 +335,10 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
         savedRecipes.map((save) => (
           <div
             key={save.id}
-            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
               src={
                 save.recipe.image && save.recipe.image.startsWith("https://")
                   ? save.recipe.image
@@ -379,10 +396,10 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
         likedRecipes.map((like) => (
           <div
             key={like.id}
-            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative"
+            className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
               src={
                 like.recipe.image && like.recipe.image.startsWith("https://")
                   ? like.recipe.image

@@ -17,7 +17,7 @@ export const formatDistance = (dateString) => {
   const distanceInDays = distanceInMilliseconds / (1000 * 60 * 60 * 24);
 
   if (distanceInDays >= 7) {
-    return format(date, "MMMM d, yyyy - HH:mm:ss");
+    return format(date, "MMMM d, yyyy");
   } else {
     return formatDistanceToNow(date, { addSuffix: true });
   }

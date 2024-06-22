@@ -5,18 +5,37 @@ import Navbar from "../../components/module/Navbar";
 import Button from "../../components/base/Button";
 import Footer from "../../components/module/Footer";
 import { BiImage } from "react-icons/bi";
-import { getToken } from "../../utils/cookies";
 import { useRouter } from "next/router";
-import Alert from "../../components/base/Alert";
 import Input from "../../components/base/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrorForms } from "../../store/actions/authActions";
 import { uploadImageAction } from "../../store/actions/assetActions";
 import { addRecipeAction } from "../../store/actions/recipeActions";
+import { parseCookies } from "../../utils/cookies";
 
-const AddRecipe = () => {
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const cookies = parseCookies(req.headers.cookie);
+  const token = cookies.token || null;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      token: token,
+    },
+  };
+}
+
+const AddRecipe = ({ token }) => {
   const router = useRouter();
-  const { token } = getToken();
   const dispatch = useDispatch();
   const { errors } = useSelector((state) => state.validation);
   const [recipe, setRecipe] = useState({

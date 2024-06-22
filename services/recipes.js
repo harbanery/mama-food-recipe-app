@@ -27,7 +27,27 @@ export async function getAllRecipes({
       status: result.data?.status || 200,
     };
   } catch (error) {
-    // console.error("API Error:", error);
+    throw {
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+}
+
+export async function getTotalRecipesCount({ keyword, limit }) {
+  try {
+    const result = await axios.get(recipeUrl, {
+      params: {
+        ...(keyword ? { search: keyword } : {}),
+        limit: 9999,
+      },
+    });
+
+    return {
+      total: Math.ceil(result.data.data.length / limit),
+      message: result.data?.message || "Success",
+      status: result.data?.status || 200,
+    };
+  } catch (error) {
     throw {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -44,7 +64,6 @@ export async function getRecipeById({ id }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     throw {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -65,7 +84,6 @@ export async function getMyRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -86,7 +104,6 @@ export async function getSavedRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -94,7 +111,6 @@ export async function getSavedRecipes({ token }) {
 }
 
 export async function saveRecipe({ id, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.post(
       `${recipeUrl}/save`,
@@ -108,13 +124,11 @@ export async function saveRecipe({ id, token }) {
       }
     );
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -122,7 +136,6 @@ export async function saveRecipe({ id, token }) {
 }
 
 export async function deleteSaveRecipe({ id, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.delete(`${recipeUrl}/save/${id}`, {
       headers: {
@@ -130,13 +143,11 @@ export async function deleteSaveRecipe({ id, token }) {
       },
     });
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -157,7 +168,6 @@ export async function getLikedRecipes({ token }) {
       status: result.data?.status || 200,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -165,7 +175,6 @@ export async function getLikedRecipes({ token }) {
 }
 
 export async function likeRecipe({ id, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.post(
       `${recipeUrl}/like`,
@@ -179,13 +188,11 @@ export async function likeRecipe({ id, token }) {
       }
     );
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -193,7 +200,6 @@ export async function likeRecipe({ id, token }) {
 }
 
 export async function deleteLikeRecipe({ id, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.delete(`${recipeUrl}/like/${id}`, {
       headers: {
@@ -201,13 +207,11 @@ export async function deleteLikeRecipe({ id, token }) {
       },
     });
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -215,7 +219,6 @@ export async function deleteLikeRecipe({ id, token }) {
 }
 
 export async function addRecipe({ data, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.post(
       `${recipeUrl}/`,
@@ -231,14 +234,12 @@ export async function addRecipe({ data, token }) {
       }
     );
 
-    // console.error("Result:", result);
     return {
       data: result.data.data,
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -246,7 +247,6 @@ export async function addRecipe({ data, token }) {
 }
 
 export async function updateRecipe({ data, token }) {
-  // console.log(data.title);
   try {
     const result = await axios.put(
       `${recipeUrl}/${data.id}`,
@@ -262,14 +262,12 @@ export async function updateRecipe({ data, token }) {
       }
     );
 
-    // console.error("Result:", result);
     return {
       data: result.data.data,
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };
@@ -277,8 +275,6 @@ export async function updateRecipe({ data, token }) {
 }
 
 export async function deleteRecipe({ id, token }) {
-  // console.log(id);
-  // console.log(token);
   try {
     const result = await axios.delete(`${recipeUrl}/${id}`, {
       headers: {
@@ -286,13 +282,11 @@ export async function deleteRecipe({ id, token }) {
       },
     });
 
-    // console.error("Result:", result);
     return {
       message: result.data?.message || "Success",
       status: result.status,
     };
   } catch (error) {
-    // console.error("API Error:", error);
     return {
       message: error.response?.data?.message || "An error occurred",
     };

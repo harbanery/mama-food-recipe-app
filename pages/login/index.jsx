@@ -9,6 +9,7 @@ import Link from "next/link";
 import Alert from "../../components/base/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrorForms, loginAction } from "../../store/actions/authActions";
+import { BiArrowBack, BiRightArrowAlt } from "react-icons/bi";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -54,6 +55,14 @@ const Login = () => {
     setFormAgreed(e.target.checked);
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginAction(form, formAgreed, router));
@@ -75,13 +84,20 @@ const Login = () => {
             />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-yellow-300 to-yellow-400 opacity-70" />
             <img
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+              onClick={() => router.push("/")}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
               src="/assets/brands/Group 697.png"
               alt="logo_mama_recipe"
             />
           </div>
         </aside>
         <section className="w-full md:w-3/4 xl:w-7/12 font-inter flex flex-col justify-center items-center gap-6 h-screen">
+          <Button
+            className={`absolute top-0 right-0 m-8 sm:m-10 p-1 text-4xl text-recipe-corral hover:text-recipe-dark sm:text-5xl first:rounded-[50%] hover:bg-recipe-yellow-normal hover:rotate-180 transition-all ease-in-out duration-300`}
+            onClick={handleBack}
+          >
+            <BiArrowBack />
+          </Button>
           <h1 className=" font-bold text-3xl text-recipe-yellow-normal">
             Welcome
           </h1>
@@ -120,7 +136,7 @@ const Login = () => {
             </Button>
             <Link
               href={`/`}
-              className="font-medium text-sm text-right text-recipe-obsidian"
+              className="font-medium text-sm text-right text-recipe-obsidian hover:text-recipe-corral transition duration-200"
             >
               Forgot Password ?
             </Link>
@@ -130,7 +146,7 @@ const Login = () => {
               </span>
               <Link
                 href={`/register`}
-                className="text-recipe-yellow-normal hover:text-recipe-yellow-dark"
+                className="text-recipe-yellow-normal hover:text-recipe-yellow-dark transition duration-200"
               >
                 Sign Up
               </Link>
