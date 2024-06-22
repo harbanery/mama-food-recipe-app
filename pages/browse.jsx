@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
       getAllRecipes({
         keyword: search,
         limit,
-        page,
+        page: parseInt(page, 10),
         sorting: sort,
         orderBy: order,
       }),
@@ -39,7 +39,7 @@ export async function getServerSideProps(context) {
       props: {
         recipes: resultRecipes.data,
         search,
-        page,
+        page: parseInt(page, 10),
         totalPage: recipesCount.total,
         sort,
         order,
@@ -54,7 +54,7 @@ export async function getServerSideProps(context) {
       props: {
         recipes: [],
         search,
-        page,
+        page: parseInt(page, 10),
         totalPage: page,
         sort,
         order,
@@ -266,39 +266,217 @@ const Pagination = ({ data, status, page, totalPage }) => {
   };
 
   const renderPageButtons = () => {
-    return (
-      <>
+    const buttons = [];
+
+    if (isMobile) {
+      buttons.push(
         <Button
-          className={`font-medium rounded-none bg-white w-[54px] sm:w-[76px] h-full ${
-            page == 1 ? "bg-gray-200" : ""
+          key={1}
+          className={`font-medium rounded-none w-[43px] h-full ${
+            page === 1 ? "bg-gray-200" : "bg-white"
           }`}
           onClick={() => handlePage(1)}
         >
           1
         </Button>
-        {Array.from({ length: totalPage - 2 }, (_, index) => (
-          <Button
-            key={index + 2}
-            className={`font-medium rounded-none bg-white w-[54px] sm:w-[76px] h-full ${
-              page == index + 2 ? "bg-gray-200" : ""
-            }`}
-            onClick={() => handlePage(index + 2)}
+      );
+
+      if (page > 2) {
+        buttons.push(
+          <span
+            key="dots1"
+            className="flex justify-center items-center w-[32px] h-full text-center"
           >
-            {index + 2}
-          </Button>
-        ))}
-        {totalPage != 1 && (
+            ...
+          </span>
+        );
+      }
+
+      if (page !== totalPage && page !== 1) {
+        buttons.push(
           <Button
-            className={`font-medium rounded-none bg-white w-[54px] sm:w-[76px] h-full ${
-              page == totalPage ? "bg-gray-200" : ""
+            key={page}
+            className={`font-medium rounded-none w-[43px] h-full bg-gray-200`}
+            onClick={() => handlePage(page)}
+          >
+            {page}
+          </Button>
+        );
+      }
+
+      if (page < totalPage - 1) {
+        buttons.push(
+          <span
+            key="dots2"
+            className="flex justify-center items-center w-[32px] h-full text-center"
+          >
+            ...
+          </span>
+        );
+      }
+
+      if (totalPage > 1) {
+        buttons.push(
+          <Button
+            key={totalPage}
+            className={`font-medium rounded-none w-[43px] h-full ${
+              page === totalPage ? "bg-gray-200" : "bg-white"
             }`}
             onClick={() => handlePage(totalPage)}
           >
             {totalPage}
           </Button>
-        )}
-      </>
-    );
+        );
+      }
+    } else {
+      buttons.push(
+        <Button
+          key={1}
+          className={`font-medium rounded-none w-[76px] h-full ${
+            page === 1 ? "bg-gray-200" : "bg-white"
+          }`}
+          onClick={() => handlePage(1)}
+        >
+          1
+        </Button>
+      );
+
+      if (page > 3 && totalPage > 4) {
+        buttons.push(
+          <span
+            key="dots1"
+            className="flex justify-center items-center w-[76px] h-full text-center"
+          >
+            ...
+          </span>
+        );
+      }
+
+      if (page === 1) {
+        if (totalPage > 1) {
+          buttons.push(
+            <Button
+              key={2}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === 2 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(2)}
+            >
+              2
+            </Button>
+          );
+        }
+        if (totalPage > 2) {
+          buttons.push(
+            <Button
+              key={3}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === 3 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(3)}
+            >
+              3
+            </Button>
+          );
+        }
+      }
+
+      if (page > 1 && page < totalPage) {
+        if (page > 2) {
+          buttons.push(
+            <Button
+              key={page - 1}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === page - 1 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(page - 1)}
+            >
+              {page - 1}
+            </Button>
+          );
+        }
+
+        buttons.push(
+          <Button
+            key={page}
+            className={`font-medium rounded-none w-[76px] h-full bg-gray-200`}
+            onClick={() => handlePage(page)}
+          >
+            {page}
+          </Button>
+        );
+
+        if (page < totalPage - 1) {
+          buttons.push(
+            <Button
+              key={page + 1}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === page + 1 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(page + 1)}
+            >
+              {page + 1}
+            </Button>
+          );
+        }
+      }
+
+      if (page === totalPage) {
+        if (totalPage > 3) {
+          buttons.push(
+            <Button
+              key={totalPage - 2}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === totalPage - 2 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(totalPage - 2)}
+            >
+              {totalPage - 2}
+            </Button>
+          );
+        }
+        if (totalPage > 2) {
+          buttons.push(
+            <Button
+              key={totalPage - 1}
+              className={`font-medium rounded-none w-[76px] h-full ${
+                page === totalPage - 1 ? "bg-gray-200" : "bg-white"
+              }`}
+              onClick={() => handlePage(totalPage - 1)}
+            >
+              {totalPage - 1}
+            </Button>
+          );
+        }
+      }
+
+      if (page < totalPage - 2 && totalPage > 4) {
+        buttons.push(
+          <span
+            key="dots2"
+            className="flex justify-center items-center w-[76px] h-full text-center"
+          >
+            ...
+          </span>
+        );
+      }
+
+      if (totalPage > 1) {
+        buttons.push(
+          <Button
+            key={totalPage}
+            className={`font-medium rounded-none w-[76px] h-full ${
+              page === totalPage ? "bg-gray-200" : "bg-white"
+            }`}
+            onClick={() => handlePage(totalPage)}
+          >
+            {totalPage}
+          </Button>
+        );
+      }
+    }
+
+    return buttons;
   };
 
   if (status != "failed" && data.length != 0) {
@@ -306,16 +484,16 @@ const Pagination = ({ data, status, page, totalPage }) => {
       <div className="w-full flex justify-center items-center gap-[14px] text-recipe-dark">
         <Button
           onClick={handlePrev}
-          className={`font-medium text-5xl rounded-none bg-white w-[54px] h-[54px] sm:w-[76px] sm:h-[76px]`}
+          className={`font-medium text-3xl sm:text-5xl rounded-none bg-white w-[32px] h-[32px] sm:w-[76px] sm:h-[76px]`}
         >
           <BiChevronLeft className=" mx-auto" />
         </Button>
-        <div className="flex justify-between items-center gap-[14px] font-medium text-4xl text-center h-[54px] sm:h-[76px]">
+        <div className="flex justify-between items-center gap-[14px] font-medium text-xl sm:text-4xl text-center h-[43px] sm:h-[76px]">
           {renderPageButtons()}
         </div>
         <Button
           onClick={handleNext}
-          className={`font-medium text-5xl rounded-none bg-white w-[54px] h-[54px] sm:w-[76px] sm:h-[76px]`}
+          className={`font-medium text-3xl sm:text-5xl rounded-none bg-white w-[32px] h-[32px] sm:w-[76px] sm:h-[76px]`}
         >
           <BiChevronRight className=" mx-auto" />
         </Button>
