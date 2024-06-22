@@ -54,10 +54,10 @@ Here are the pages that I am working on:
 
 1. Login Page
 
-  <details>
-   <summary>Show Image</summary>
-   <img src="./public/screenshots/Login.png" alt="Login Page">
-  </details>
+   <details>
+      <summary>Show Image</summary>
+      <img src="./public/screenshots/Login.png" alt="Login Page">
+   </details>
 
 2. Register Page
 
