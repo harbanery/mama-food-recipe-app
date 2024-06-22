@@ -1,6 +1,46 @@
-# Mama Recipe: Food Recipe Implementation Based on Figma
+<a name="readme-top"></a>
 
-My web-based application, Mama Recipe, is specifically designed for food enthusiasts who are always seeking new inspirations in the kitchen. With a constantly updated collection of recipes from around the world, you can discover a wide range of dishes, from traditional cuisine to modern creations. Interactive features such as video tutorials, automatic shopping lists, and an online chef community make your cooking experience more enjoyable and easy. So, what are you waiting for? Explore Mama Recipe now and find your new favorite recipes!
+<div align="center">
+  <a href="https://github.com/harbanery/mama-food-recipe-app">
+    <img src="./public/github-icon.png" alt="Logo" width="200">
+  </a>
+
+  <h1 align="center">Mama Recipe</h1>
+
+  <p align="center">
+    Food Recipe Implementation
+    <br />
+    <br />
+    <a href="https://mama-recipe-food.vercel.app/">View Demo</a>
+    ·
+    <a href="#" disabled>View Back-End Repo</a>
+  </p>
+</div>
+
+<details>
+  <summary>Table of Contents</summary>
+  <ul>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#documentation">Documentation</a></li>
+    <li><a href="#domain-to-visit-pages">Domain to Visit Pages</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</details>
+
+## About The Project
+
+My web-based application, **Mama Recipe**, is specifically designed for food enthusiasts who are always seeking new inspirations in the kitchen. With a constantly updated collection of recipes from around the world, you can discover a wide range of dishes, from traditional cuisine to modern creations. Interactive features such as video tutorials, automatic shopping lists, and an online chef community make your cooking experience more enjoyable and easy. So, what are you waiting for? Explore **Mama Recipe** now and find your new favorite recipes!
+
+### Built With
+
+[![Next][Next.js]][Next-url]
+[![React][React.js]][React-url]
 
 ## Usage
 
