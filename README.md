@@ -13,7 +13,7 @@
     <br />
     <a href="https://mama-recipe-food.vercel.app/" target="_blank">View Demo</a>
     ·
-    <a href="https://github.com/harbanery/be-mama-recipe-figma" target="_blank" disabled>View Back-End Repo</a>
+    <a href="https://github.com/harbanery/be-mama-food-recipe-app" target="_blank">View Back-End Repo</a>
   </p>
 </div>
 
