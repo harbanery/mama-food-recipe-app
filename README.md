@@ -36,7 +36,7 @@
     </li>
     <li><a href="#usage">Usage</a>
     <ul>
-        <li><a href="#features">Features</a></li>
+        <!-- <li><a href="#features">Features</a></li> -->
         <li><a href="#screenshots">Screenshots</a></li>
       </ul>
     </li>
@@ -92,14 +92,14 @@ To get a local copy up and running follow these simple steps.
 2. Add the following variables to the `.env` file:
 
    ```sh
-     NEXT_PUBLIC_API_URL=your_api_url
+     NEXT_PUBLIC_URL=your_api_url
    ```
 
 ## Usage
 
 This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as [clsx](https://www.npmjs.com/package/clsx) and ESLint to improve efficiency and maintain code consistency. I also used [Axios](https://axios-http.com/docs/intro) for API calls, while [date-fns](https://date-fns.org/) and [js-cookie](https://github.com/js-cookie/js-cookie) manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
 
-### Features
+<!-- ### Features -->
 
 ### Screenshots
 
@@ -199,7 +199,7 @@ Contributions are what make the open source community such an amazing place to l
 
 ## License
 
-Distributed under the MIT License. See [`LICENSE`](https://github.com/harbanery/mama-food-recipe-app?tab=MIT-1-ov-file) for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
@@ -220,7 +220,7 @@ Feel free to check it out:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[Node.js]: (https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Node.js]: https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
 [Node-url]: https://nodejs.org/en
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
