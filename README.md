@@ -26,9 +26,24 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#documentation">Documentation</a></li>
-    <li><a href="#reference">Reference</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#setup-environment-variables">Setup Environment Variables</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a>
+    <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#screenshots">Screenshots</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ul>
 </details>
 
@@ -42,12 +57,51 @@ My web-based application, **Mama Recipe**, is specifically designed for food ent
 [![React][React.js]][React-url]
 [![Tailwind][Tailwind]][Tailwind-url]
 [![Redux][Redux]][Redux-url]
+[![Node][Node.js]][Node-url]
+
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+- npm
+
+  ```sh
+    npm install npm@latest -g
+  ```
+
+### Installation
+
+1. Clone Repo
+
+   ```sh
+     git clone https://github.com/harbanery/mama-food-recipe-app.git
+   ```
+
+2. Install NPM packages
+
+   ```sh
+     npm install
+   ```
+
+### Setup Environment Variables
+
+1. Create a `.env` file in your local root directory.
+
+2. Add the following variables to the `.env` file:
+
+   ```sh
+     NEXT_PUBLIC_API_URL=your_api_url
+   ```
 
 ## Usage
 
 This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as [clsx](https://www.npmjs.com/package/clsx) and ESLint to improve efficiency and maintain code consistency. I also used [Axios](https://axios-http.com/docs/intro) for API calls, while [date-fns](https://date-fns.org/) and [js-cookie](https://github.com/js-cookie/js-cookie) manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
 
-## Documentation
+### Features
+
+### Screenshots
 
 Here are the pages that I am working on:
 
@@ -133,20 +187,41 @@ Here are the pages that I am working on:
        <img src="./public/screenshots/Profile.png" alt="Profile Page">
     </details>
 
-## Reference
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See [`LICENSE`](https://github.com/harbanery/mama-food-recipe-app?tab=MIT-1-ov-file) for more information.
+
+## Contact
+
+If you have any questions or inquiries regarding this project, feel free to contact me at ryusuf05@gmail.com
+
+## Acknowledgements
 
 Feel free to check it out:
 
-- [Node.js](https://nodejs.org/en)
-
-- [React Dom Router](https://reactrouter.com/en/main)
-
-- [Vercel as Deployment](https://vercel.com/)
-
-- [Img Shields](https://shields.io)
+<!-- - [Node.js](https://nodejs.org/en) -->
+<!-- - [React Dom Router](https://reactrouter.com/en/main) -->
 
 - [React Icons](https://react-icons.github.io/react-icons/)
+- [Vercel as Deployment](https://vercel.com/)
+- [Img Shields](https://shields.io)
+- [Choose an Open Source License](https://choosealicense.com/)
+- [GitHub Pages](https://pages.github.com/)
 
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[Node.js]: (https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Node-url]: https://nodejs.org/en
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=white
