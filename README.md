@@ -105,7 +105,10 @@ This application is a portfolio that inspired from this [Figma template](https:/
 
 Here are the pages that I am working on:
 
-<table>
+<details>
+  <summary>Show/Hide Image</summary>
+  <br>
+  <table>
    <tr>
       <td><img src="./public/screenshots/Login.png" alt="Login Page" width="100%"/></td>
   </tr>
@@ -113,6 +116,7 @@ Here are the pages that I am working on:
       <th>Login Page</th>
    </tr>
 </table>
+</details>
 
 1.  Login Page
 
