@@ -110,8 +110,8 @@ For more details, feel free to check in show/hide images below.
   <br>
   <table>
    <tr>
-      <th>Login Page</th>
-      <td>
+      <th style="text-align:left; width:20%;">Login Page</th>
+      <td style="width:80%;">
           <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: 100%; width: 100%;"/>
       </td>
    </tr>
