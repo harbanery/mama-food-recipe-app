@@ -87,9 +87,9 @@ To get a local copy up and running follow these simple steps.
 
 ### Setup Environment Variables
 
-1. Create a `.env` file in your local root directory.
+1. Create a `.env` or `.env.local` file in your local root directory.
 
-2. Add the following variables to the `.env` file:
+2. Add the following variables to the `.env` or `.env.local` file:
 
    ```sh
      NEXT_PUBLIC_URL=your_api_url
@@ -199,7 +199,7 @@ Contributions are what make the open source community such an amazing place to l
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [`LICENSE`](https://github.com/harbanery/mama-food-recipe-app/blob/main/LICENSE) for more information.
 
 ## Contact
 
