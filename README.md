@@ -113,7 +113,7 @@ For more details, feel free to check in show/hide images below.
       <th>Login Page</th>
    </tr>
    <tr>
-      <td>
+    <td>
       <details>
         <summary>Show/Hide Image</summary>
         <br>
@@ -121,51 +121,78 @@ For more details, feel free to check in show/hide images below.
       </details>
     </td>
    </tr>
-   <!-- <tr>
-      <td><img src="./public/screenshots/Login.png" alt="Login Page" width="100%"/></td>
-   </tr> -->
    <tr>
       <th>Register Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Register.png" alt="Register Page" width="100%"/></td>
-  </tr>
-   <!-- <tr>
-      <th>Register Page</th>
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Register.png" alt="Register Page"/>
+      </details>
+    </td>
    </tr>
-   <tr>
-      <td><img src="./public/screenshots/Register.png" alt="Register Page" width="100%"/></td>
-  </tr>
    <tr>
       <th>Home Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Home.png" alt="Home Page" width="100%"/></td>
-  </tr>
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Home.png" alt="Home Page"/>
+      </details>
+    </td>
+   </tr>
    <tr>
       <th>Browse Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Browse.png" alt="Browse Page" width="100%"/></td>
-  </tr>
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Browse.png" alt="Browse Page"/>
+      </details>
+    </td>
+   </tr>
    <tr>
       <th>Detail Recipe Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page" width="100%"/></td>
-  </tr>
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page"/>
+      </details>
+    </td>
+   </tr>
    <tr>
       <th>Add Recipe Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page" width="100%"/></td>
-  </tr>
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page"/>
+      </details>
+    </td>
+   </tr>
    <tr>
       <th>Profile Page</th>
    </tr>
    <tr>
-      <td><img src="./public/screenshots/Profile.png" alt="Profile Page" width="100%"/></td>
-  </tr> -->
+    <td>
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Profile.png" alt="Profile Page"/>
+      </details>
+    </td>
+   </tr>
 </table>
 </details>
 
