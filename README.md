@@ -105,6 +105,17 @@ This application is a portfolio that inspired from this [Figma template](https:/
 
 Here are the pages that I am working on:
 
+<table>
+   <tr>
+      <th>Login Page</th>
+      <th>Register Page</th>
+   </tr>
+   <tr>
+      <td><img width="50%" src="./public/screenshots/Login.png" border="0" alt="" /></td>
+      <td><img width="50%" src="./public/screenshots/Register.png" border="0" alt="" /></td>
+  </tr>
+</table>
+
 1.  Login Page
 
     <details>
