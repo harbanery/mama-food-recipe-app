@@ -111,6 +111,12 @@ For more details, feel free to check in show/hide images below.
   <table>
    <tr>
       <th>Login Page</th>
+      <td>
+          <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: 100%; width: 100%;"/>
+      </td>
+   </tr>
+   <!-- <tr>
+      <th>Login Page</th>
       <th>Register Page</th>
    </tr>
    <tr>
@@ -124,7 +130,7 @@ For more details, feel free to check in show/hide images below.
           <img src="./public/screenshots/Register.png" alt="Register Page" style="object-fit: cover; height: 100%; width: 100%;"/>
         </div>
       </td>
-  </tr>
+  </tr> -->
    <!-- <tr>
       <th>Register Page</th>
    </tr>
