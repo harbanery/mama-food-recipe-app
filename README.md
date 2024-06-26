@@ -103,10 +103,10 @@ This application is a portfolio that inspired from this [Figma template](https:/
 
 ### Screenshots
 
-Here are the pages that I am working on:
+For more details, feel free to check in show/hide images below.
 
 <details>
-  <summary>Show/Hide Image</summary>
+  <summary>Show/Hide Images</summary>
   <br>
   <table>
    <tr>
@@ -115,10 +115,46 @@ Here are the pages that I am working on:
    <tr>
       <th>Login Page</th>
    </tr>
+   <tr>
+      <td><img src="./public/screenshots/Register.png" alt="Register Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Register Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Home.png" alt="Home Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Home Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Browse.png" alt="Browse Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Browse Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Detail Recipe Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Add Recipe Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Profile.png" alt="Profile Page" width="100%"/></td>
+  </tr>
+   <tr>
+      <th>Profile Page</th>
+   </tr>
 </table>
 </details>
 
-1.  Login Page
+<!-- 1.  Login Page
 
     <details>
        <summary>Show/Hide Image</summary>
@@ -198,7 +234,7 @@ Here are the pages that I am working on:
        <summary>Show/Hide Image</summary>
        <br>
        <img src="./public/screenshots/Profile.png" alt="Profile Page">
-    </details>
+    </details> -->
 
 ## Contributing
 
