@@ -36,7 +36,7 @@
     </li>
     <li><a href="#usage">Usage</a>
     <ul>
-        <!-- <li><a href="#features">Features</a></li> -->
+        <li><a href="#features">Features</a></li>
         <li><a href="#screenshots">Screenshots</a></li>
       </ul>
     </li>
@@ -97,9 +97,23 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-This application is a portfolio that inspired from this [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0). The programming used in this application is Next.js with React components utilizing router pages. Additionally, I used Tailwind as CSS Framework, with enhancements such as [clsx](https://www.npmjs.com/package/clsx) and ESLint to improve efficiency and maintain code consistency. I also used [Axios](https://axios-http.com/docs/intro) for API calls, while [date-fns](https://date-fns.org/) and [js-cookie](https://github.com/js-cookie/js-cookie) manage date handling and cookies. For developing my authentication and other validations, I used Yup for schema validation. Lastly, Redux is implemented for state management, completing the overall project of this application.
+This application is a portfolio inspired by a [Figma template](https://www.figma.com/design/SUbBTYCq1e4ngRt20lSdqr/Food-Recipe?node-id=47-1273&t=zKQHFrZI17X3NJUQ-0).
 
-<!-- ### Features -->
+### Features
+
+- **Utilizing Next.js** with router pages and React components.
+- Majority of pages using **SSR** to improve performance and **SEO** by rendering pages on the server.
+- **User authentication** and authorization using **JWT**.
+- Managing **JWT in cookies** using [js-cookie](https://github.com/js-cookie/js-cookie).
+- **Protected routes** for secure access.
+- **Create, edit, and delete** user recipes.
+- **Browse recipes** with search, sort, and order functionalities.
+- **Like and save recipes**.
+- **API handling** using [Axios](https://axios-http.com/docs/intro).
+- Handling **date functions** with [date-fns](https://date-fns.org/).
+- **State management** with Redux for alerts, validation checks (handled by **Yup**), and authentication.
+- **Linting** with **ESLint** for maintaining code quality.
+- Enhanced CSS with [**clsx**](https://www.npmjs.com/package/clsx) for improved efficiency.
 
 ### Screenshots
 
@@ -196,88 +210,6 @@ For more details, feel free to check in show/hide images below.
 </table>
 </details>
 
-<!-- 1.  Login Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Login.png" alt="Login Page">
-    </details>
-
-2.  Register Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Register.png" alt="Register Page">
-    </details>
-
-3.  Home Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Home.png" alt="Landing Page">
-    </details>
-
-4.  Browse Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Browse.png" alt="Browse Page">
-    </details>
-
-    In this page, there are features:
-
-    - Search Bar
-
-      <details>
-         <summary>Show/Hide Image</summary>
-         <br>
-         <img src="./public/screenshots/Browse-Search.png" alt="Browse Page">
-      </details>
-
-    - Sort & Order (Filter)
-
-      <details>
-         <summary>Show/Hide Image</summary>
-         <br>
-         <img src="./public/screenshots/Browse-Sort&Order.png" alt="Browse Page">
-      </details>
-
-    - Pagination
-
-      <details>
-         <summary>Show/Hide Image</summary>
-         <br>
-         <img src="./public/screenshots/Browse-Pagination.png" alt="Browse Page">
-      </details>
-
-5.  Detail Recipe Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Detail Recipe.png" alt="Detail Recipe Page">
-    </details>
-
-6.  Add Recipe Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Add Recipe.png" alt="Add Recipe Page">
-    </details>
-
-7.  Profile Page
-
-    <details>
-       <summary>Show/Hide Image</summary>
-       <br>
-       <img src="./public/screenshots/Profile.png" alt="Profile Page">
-    </details> -->
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -299,9 +231,6 @@ If you have any questions or inquiries regarding this project, feel free to cont
 ## Acknowledgements
 
 Feel free to check it out:
-
-<!-- - [Node.js](https://nodejs.org/en) -->
-<!-- - [React Dom Router](https://reactrouter.com/en/main) -->
 
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [Vercel as Deployment](https://vercel.com/)
