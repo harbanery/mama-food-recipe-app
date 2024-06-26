@@ -107,12 +107,10 @@ Here are the pages that I am working on:
 
 <table>
    <tr>
-      <td><div style="overflow: hidden; height: 180px;"><img src="./public/screenshots/Login.png" alt="Login Page" width="100%"/></div></td>
-      <td><div style="overflow: hidden; height: 180px;"><img src="./public/screenshots/Register.png" alt="Register Page" width="100%"/></div></td>
+      <td><img src="./public/screenshots/Login.png" alt="Login Page" width="100%"/></td>
   </tr>
    <tr>
       <th>Login Page</th>
-      <th>Register Page</th>
    </tr>
 </table>
 
