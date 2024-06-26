@@ -112,7 +112,7 @@ For more details, feel free to check in show/hide images below.
    <tr>
       <th style="text-align:left; width:20%;">Login Page</th>
       <td style="width:80%;">
-          <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: 100%; width: 100%;"/>
+          <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: auto; width: 80%;"/>
       </td>
    </tr>
    <!-- <tr>
