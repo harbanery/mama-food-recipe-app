@@ -110,27 +110,26 @@ For more details, feel free to check in show/hide images below.
   <br>
   <table>
    <tr>
-      <th style="text-align:left; width:20%;">Login Page</th>
-      <td style="width:80%;">
-          <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: auto; width: 80%;"/>
-      </td>
-   </tr>
-   <!-- <tr>
       <th>Login Page</th>
-      <th>Register Page</th>
    </tr>
    <tr>
       <td>
-        <div style="overflow: hidden; height: 200px; width: 100%;">
-          <img src="./public/screenshots/Login.png" alt="Login Page" style="object-fit: cover; height: 100%; width: 100%;"/>
-        </div>
-      </td>
-      <td>
-        <div style="overflow: hidden; height: 200px; width: 100%;">
-          <img src="./public/screenshots/Register.png" alt="Register Page" style="object-fit: cover; height: 100%; width: 100%;"/>
-        </div>
-      </td>
-  </tr> -->
+      <details>
+        <summary>Show/Hide Image</summary>
+        <br>
+        <img src="./public/screenshots/Login.png" alt="Login Page">
+      </details>
+    </td>
+   </tr>
+   <!-- <tr>
+      <td><img src="./public/screenshots/Login.png" alt="Login Page" width="100%"/></td>
+   </tr> -->
+   <tr>
+      <th>Register Page</th>
+   </tr>
+   <tr>
+      <td><img src="./public/screenshots/Register.png" alt="Register Page" width="100%"/></td>
+  </tr>
    <!-- <tr>
       <th>Register Page</th>
    </tr>
