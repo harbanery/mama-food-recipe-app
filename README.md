@@ -111,8 +111,8 @@ Here are the pages that I am working on:
       <th>Register Page</th>
    </tr>
    <tr>
-      <td><img width="50%" src="./public/screenshots/Login.png" border="0" alt="" /></td>
-      <td><img width="50%" src="./public/screenshots/Register.png" border="0" alt="" /></td>
+      <td><img width="100%" src="./public/screenshots/Login.png" border="0" alt="" /></td>
+      <td><img width="100%" src="./public/screenshots/Register.png" border="0" alt="" /></td>
   </tr>
 </table>
 
