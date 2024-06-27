@@ -56,6 +56,8 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Setup Environment Variables](#setup-environment-variables)
+  - [Running the Application](#running-the-application)
+  - [Test Account](#test-account)
 - [Usage](#usage)
   - [Features](#features)
   - [Screenshots](#screenshots)
@@ -111,6 +113,31 @@ To get a local copy up and running follow these simple steps.
    ```sh
      NEXT_PUBLIC_URL=your_api_url
    ```
+
+### Running the Application
+
+1. Start the development server:
+
+   ```sh
+    npm run dev
+   ```
+
+2. Open your browser and locally navigate to:
+
+   ```sh
+   http://localhost:3000
+   ```
+
+### Test Account
+
+Use the following test account to log in and explore the application:
+
+```json
+{
+  "email": "jane.smith@gmail.com",
+  "password": "Jan3Sm!th#2024"
+}
+```
 
 ## Usage
 
