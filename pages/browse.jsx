@@ -549,7 +549,7 @@ const ListBrowseRecipe = ({ recipes }) => {
             }
             alt={recipe.title}
           />
-          <h2 className="absolute rounded-[15px] bg-[#ffffffd8] w-5/6 p-2 left-0 bottom-0 m-1 font-medium text-base lg:text-lg xl:text-xl 2xl:text-[28px] 2xl:leading-10 text-recipe-dark ">
+          <h2 className="absolute rounded-[15px] bg-[#ffffffd8] w-5/6 p-2 left-0 bottom-0 m-1 font-medium text-base lg:text-lg xl:text-xl text-recipe-dark ">
             {recipe.title}
           </h2>
         </Link>
