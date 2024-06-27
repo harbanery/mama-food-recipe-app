@@ -17,7 +17,7 @@
   </p>
 </div>
 
-<details>
+<!-- <details>
   <summary>Table of Contents</summary>
   <ul>
     <li>
@@ -45,7 +45,24 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ul>
-</details>
+</details> -->
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Setup Environment Variables](#setup-environment-variables)
+- [Usage](#usage)
+  - [Features](#features)
+  - [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#Contact)
+- [Acknowledgements](#acknowledgements)
 
 ## About The Project
 
