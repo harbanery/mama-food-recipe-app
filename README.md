@@ -98,7 +98,13 @@ To get a local copy up and running follow these simple steps.
      git clone https://github.com/harbanery/mama-food-recipe-app.git
    ```
 
-2. Install NPM packages
+2. Go to folder directory
+
+   ```bash
+   cd mama-food-recipe-app
+   ```
+
+3. Install NPM packages
 
    ```sh
      npm install
@@ -252,6 +258,15 @@ For more details, feel free to check in show/hide images below.
     </td>
    </tr>
 </table>
+</details>
+
+### Performance
+
+<details>
+  <summary>Show/Hide Image</summary>
+  <br>
+  <img src="./public/screenshots/Performance-Mobile.png" alt="Performance Mobile">
+  <img src="./public/screenshots/Performance-Desktop.png" alt="Performance Desktop">
 </details>
 
 ## Contributing
