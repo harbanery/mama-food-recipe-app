@@ -87,7 +87,7 @@ To get a local copy up and running follow these simple steps.
 - npm
 
   ```sh
-    npm install npm@latest -g
+  npm install npm@latest -g
   ```
 
 ### Installation
@@ -95,7 +95,7 @@ To get a local copy up and running follow these simple steps.
 1. Clone Repo
 
    ```sh
-     git clone https://github.com/harbanery/mama-food-recipe-app.git
+   git clone https://github.com/harbanery/mama-food-recipe-app.git
    ```
 
 2. Go to folder directory
@@ -107,7 +107,7 @@ To get a local copy up and running follow these simple steps.
 3. Install NPM packages
 
    ```sh
-     npm install
+   npm install
    ```
 
 ### Setup Environment Variables
@@ -117,7 +117,7 @@ To get a local copy up and running follow these simple steps.
 2. Add the following variables to the `.env` or `.env.local` file:
 
    ```sh
-     NEXT_PUBLIC_URL=your_api_url
+   NEXT_PUBLIC_URL=YOUR_API_URL
    ```
 
 ### Running the Application
@@ -125,7 +125,7 @@ To get a local copy up and running follow these simple steps.
 1. Start the development server:
 
    ```sh
-    npm run dev
+   npm run dev
    ```
 
 2. Open your browser and locally navigate to:
@@ -265,8 +265,20 @@ For more details, feel free to check in show/hide images below.
 <details>
   <summary>Show/Hide Image</summary>
   <br>
-  <img src="./public/screenshots/Performance-Mobile.png" alt="Performance Mobile">
-  <img src="./public/screenshots/Performance-Desktop.png" alt="Performance Desktop">
+  <table>
+    <tr>
+      <th>Performance Mobile</th>
+    </tr>
+    <tr>
+      <td><img src="./public/screenshots/Performance-Mobile.png" alt="Performance Mobile"></td>
+    </tr>
+    <tr>
+      <th>Performance Desktop</th>
+    </tr>
+    <tr>
+      <td><img src="./public/screenshots/Performance-Desktop.png" alt="Performance Desktop"></td>
+    </tr>
+  </table>
 </details>
 
 ## Contributing
