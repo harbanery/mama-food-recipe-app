@@ -5,8 +5,10 @@ const Input = ({ children, error, type, ...props }) => {
     return (
       <textarea
         className={`p-10 w-full h-80 ${
-          error ? `bg-red-200 border-4 border-red-400` : `bg-recipe-ice`
-        } rounded-[15px] outline-none font-normal placeholder:font-normal text-lg md:text-2xl placeholder:text-lg md:placeholder:text-2xl text-recipe-corral placeholder:text-recipe-corral`}
+          error
+            ? `bg-red-200 border-red-400`
+            : `focus:border-recipe-yellow-normal border-recipe-ice bg-recipe-ice`
+        } border-4 rounded-[15px] outline-none font-normal placeholder:font-normal text-lg md:text-2xl placeholder:text-lg md:placeholder:text-2xl text-recipe-corral placeholder:text-recipe-corral transition duration-200 ease-in-out`}
         {...props}
       ></textarea>
     );
@@ -17,8 +19,10 @@ const Input = ({ children, error, type, ...props }) => {
   return (
     <input
       className={`p-10 w-full ${
-        error ? `bg-red-200 border-4 border-red-400` : `bg-recipe-ice`
-      } rounded-[15px] outline-none font-normal placeholder:font-normal text-lg md:text-2xl placeholder:text-lg md:placeholder:text-2xl text-recipe-corral placeholder:text-recipe-corral`}
+        error
+          ? `bg-red-200 border-red-400`
+          : `focus:border-recipe-yellow-normal border-recipe-ice bg-recipe-ice`
+      } border-4 rounded-[15px] outline-none font-normal placeholder:font-normal text-lg md:text-2xl placeholder:text-lg md:placeholder:text-2xl text-recipe-corral placeholder:text-recipe-corral transition duration-200 ease-in-out`}
       type={type}
       {...props}
     />

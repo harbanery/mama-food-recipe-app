@@ -261,9 +261,18 @@ const MyRecipe = ({ myRecipes = [], token }) => {
       } gap-8`}
     >
       {myRecipes.length == 0 ? (
-        <h1 className="font-medium text-3xl md:text-6xl my-24">
-          Not Available
-        </h1>
+        <div className="flex flex-col justify-center items-center gap-6 my-24">
+          <h1 className="font-medium text-3xl text-center">
+            No recipe available yet, please{" "}
+            <span
+              className="cursor-pointer text-recipe-yellow-normal hover:text-recipe-yellow-dark transition duration-300 ease-in-out"
+              onClick={() => router.push(`/recipe/add`)}
+            >
+              create
+            </span>{" "}
+            the recipe first.
+          </h1>
+        </div>
       ) : (
         myRecipes.map((recipe) => (
           <div
@@ -328,9 +337,18 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
       } gap-8`}
     >
       {savedRecipes.length == 0 ? (
-        <h1 className="font-medium text-3xl md:text-6xl my-24">
-          Not Available
-        </h1>
+        <div className="flex flex-col justify-center items-center gap-6 my-24">
+          <h1 className="font-medium text-3xl text-center">
+            No recipe available yet, please find the recipe{" "}
+            <span
+              className="cursor-pointer text-recipe-yellow-normal hover:text-recipe-yellow-dark transition duration-300 ease-in-out"
+              onClick={() => router.push(`/browse`)}
+            >
+              here
+            </span>{" "}
+            first and then save it.
+          </h1>
+        </div>
       ) : (
         savedRecipes.map((save) => (
           <div
@@ -389,9 +407,18 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
       } gap-8`}
     >
       {likedRecipes.length == 0 ? (
-        <h1 className="font-medium text-3xl md:text-6xl my-24">
-          Not Available
-        </h1>
+        <div className="flex flex-col justify-center items-center gap-6 my-24">
+          <h1 className="font-medium text-3xl text-center">
+            No recipe available yet, please find the recipe{" "}
+            <span
+              className="cursor-pointer text-recipe-yellow-normal hover:text-recipe-yellow-dark transition duration-300 ease-in-out"
+              onClick={() => router.push(`/browse`)}
+            >
+              here
+            </span>{" "}
+            first and then like it.
+          </h1>
+        </div>
       ) : (
         likedRecipes.map((like) => (
           <div
