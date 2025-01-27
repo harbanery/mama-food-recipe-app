@@ -7,7 +7,7 @@ const InputAuth = ({ className, children, error, type, ...props }) => {
         <div className="flex gap-2">
           <input
             id="checkbox"
-            className="accent-recipe-yellow-normal"
+            className="accent-recipe-yellow-normal scale-125"
             type="checkbox"
             {...props}
           />
@@ -25,7 +25,7 @@ const InputAuth = ({ className, children, error, type, ...props }) => {
     <div className="w-full flex flex-col gap-3">
       <span className="font-medium text-base">{children}</span>
       <input
-        className="focus-within:border-recipe-yellow-normal focus-within:shadow-lg rounded-md border border-recipe-gray h-[64px] p-6 placeholder:text-recipe-gray outline-none transition-all duration-300"
+        className="focus-within:border-recipe-yellow-normal focus-within:shadow-lg rounded-md border border-recipe-gray h-[40px] xl:h-[64px] p-6 xl:p-6 placeholder:text-recipe-gray outline-none transition-all duration-300"
         type={type}
         {...props}
       />
