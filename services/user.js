@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_URL;
-const userUrl = `${BASE_URL}/v1/users`;
+const userUrl = `${BASE_URL}/account`;
 
 export async function getProfile({ token }) {
   try {
