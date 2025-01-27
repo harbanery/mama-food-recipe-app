@@ -21,7 +21,7 @@ export const loginAction = (form, formAgreed, router) => async (dispatch) => {
     try {
       const { token, refreshToken, message, status } = await login({ form });
 
-      if (status === "success") {
+      if (status === 200) {
         dispatch({
           type: `AUTH_SUCCESS`,
         });

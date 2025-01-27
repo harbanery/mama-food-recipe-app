@@ -1,12 +1,5 @@
-import {
-  addRecipe,
-  deleteLikeRecipe,
-  deleteRecipe,
-  deleteSaveRecipe,
-  likeRecipe,
-  saveRecipe,
-  updateRecipe,
-} from "../../services/recipes";
+import { likeRecipe, saveRecipe } from "../../services/action";
+import { addRecipe, deleteRecipe, updateRecipe } from "../../services/recipes";
 import { recipeValidation } from "../../utils/validation";
 
 export const addRecipeAction = (recipe, token, router) => async (dispatch) => {
@@ -18,15 +11,16 @@ export const addRecipeAction = (recipe, token, router) => async (dispatch) => {
     dispatch({ type: `VALIDATION_SUCCESS` });
 
     try {
-      const { data, message } = await addRecipe({ data: recipe, token });
+      const { message } = await addRecipe({ data: recipe, token });
 
       dispatch({
         type: `ALERT_SUCCESS`,
         payload: message,
       });
 
-      router.push(`/recipe/${data.id}`);
+      router.replace("/profile");
     } catch (error) {
+      console.error(error);
       dispatch({
         type: `ALERT_FAILED`,
         payload: error.message,
@@ -66,7 +60,7 @@ export const updateRecipeAction =
           payload: message,
         });
 
-        router.push(`/profile`);
+        router.replace("/profile");
       } catch (error) {
         dispatch({
           type: `ALERT_FAILED`,
@@ -95,7 +89,7 @@ export const deleteRecipeAction = (id, token, router) => async (dispatch) => {
   try {
     const result = await deleteRecipe({ id, token });
 
-    if (result.message === "Internal Server Error") {
+    if (result.code === 500) {
       dispatch({
         type: `ALERT_FAILED`,
         payload:
@@ -137,48 +131,10 @@ export const saveAction = (recipe_id, token, router) => async (dispatch) => {
   }
 };
 
-export const unsaveAction = (id, token, router) => async (dispatch) => {
-  dispatch({ type: `ALERT_IDLE` });
-  try {
-    const result = await deleteSaveRecipe({ id, token });
-
-    dispatch({
-      type: `ALERT_SUCCESS`,
-      payload: result.message,
-    });
-
-    router.replace(router.asPath, undefined, { scroll: false });
-  } catch (error) {
-    dispatch({
-      type: `ALERT_FAILED`,
-      payload: error.message,
-    });
-  }
-};
-
 export const likeAction = (recipe_id, token, router) => async (dispatch) => {
   dispatch({ type: `ALERT_IDLE` });
   try {
     const result = await likeRecipe({ id: recipe_id, token });
-
-    dispatch({
-      type: `ALERT_SUCCESS`,
-      payload: result.message,
-    });
-
-    router.replace(router.asPath, undefined, { scroll: false });
-  } catch (error) {
-    dispatch({
-      type: `ALERT_FAILED`,
-      payload: error.message,
-    });
-  }
-};
-
-export const unlikeAction = (id, token, router) => async (dispatch) => {
-  dispatch({ type: `ALERT_IDLE` });
-  try {
-    const result = await deleteLikeRecipe({ id, token });
 
     dispatch({
       type: `ALERT_SUCCESS`,
