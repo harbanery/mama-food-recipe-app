@@ -4,17 +4,14 @@ import Head from "next/head";
 import InputAuth from "../../components/base/Input/auth";
 import Button from "../../components/base/Button";
 import Link from "next/link";
-import * as yup from "yup";
-import { register } from "../../services/auth";
 import { useRouter } from "next/router";
-import Alert from "../../components/base/Alert";
 import { parseCookies } from "../../utils/cookies";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrorForms,
   registerAction,
 } from "../../store/actions/authActions";
-import { BiArrowBack, BiRightArrowAlt } from "react-icons/bi";
+import { BiArrowBack } from "react-icons/bi";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -120,6 +117,7 @@ const Register = () => {
               value={form.name}
               onChange={handleChange}
               placeholder="Name (ex. John Doe)"
+              autoComplete="off"
             >
               Name
             </InputAuth>
@@ -130,6 +128,7 @@ const Register = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="Email (ex. john.doe@gmail.com)"
+              autoComplete="off"
             >
               Email
             </InputAuth>
@@ -140,6 +139,7 @@ const Register = () => {
               value={form.phone}
               onChange={handleChange}
               placeholder="Phone"
+              autoComplete="off"
             >
               Phone Number
             </InputAuth>
@@ -162,14 +162,14 @@ const Register = () => {
               onChange={handleChange}
               placeholder="Confirmation Password"
             >
-              Password
+              Confirm Password
             </InputAuth>
             <InputAuth type={`checkbox`} onChange={handleChangeCheckbox}>
               I agree to terms & conditions
             </InputAuth>
 
             <Button
-              className={`w-full h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
+              className={`w-full h-12 xl:h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
               onClick={handleSubmit}
             >
               Register Account

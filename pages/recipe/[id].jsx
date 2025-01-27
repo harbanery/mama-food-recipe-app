@@ -1,31 +1,16 @@
 import Head from "next/head";
 import Container from "../../components/base/Container";
-import {
-  deleteLikeRecipe,
-  deleteSaveRecipe,
-  getLikedRecipes,
-  getRecipeById,
-  getSavedRecipes,
-  likeRecipe,
-  saveRecipe,
-} from "../../services/recipes";
+import { getActionRecipe, getRecipe } from "../../services/recipes";
 import Navbar from "../../components/module/Navbar";
 import Footer from "../../components/module/Footer";
 import Button from "../../components/base/Button";
 import { formatDistance } from "../../utils/date";
 import { BiBookmark, BiLike } from "react-icons/bi";
 import { useRouter } from "next/router";
-import Alert from "../../components/base/Alert";
-import { useState } from "react";
 import { parseCookies } from "../../utils/cookies";
 import Input from "../../components/base/Input";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  likeAction,
-  saveAction,
-  unlikeAction,
-  unsaveAction,
-} from "../../store/actions/recipeActions";
+import { useDispatch } from "react-redux";
+import { likeAction, saveAction } from "../../store/actions/recipeActions";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -33,42 +18,37 @@ export async function getServerSideProps(context) {
   const cookies = parseCookies(req.headers.cookie);
   const token = cookies.token || null;
   try {
-    let savedData = null;
-    let likedData = null;
+    let isSaved = false;
+    let isLiked = false;
 
-    if (token) {
-      const [resultSavedRecipes, resultLikedRecipes] = await Promise.all([
-        getSavedRecipes({ token }),
-        getLikedRecipes({ token }),
-      ]);
+    const resultRecipe = await getRecipe({ slug: id });
 
-      const savedRecipe = resultSavedRecipes.data.find(
-        (save) => save.recipe_id === id
-      );
-      savedData = savedRecipe || null;
-
-      const likedRecipe = resultLikedRecipes.data.find(
-        (like) => like.recipe_id === id
-      );
-      likedData = likedRecipe || null;
-    }
-
-    const resultRecipe = await getRecipeById({ id });
-
-    if (!resultRecipe || !resultRecipe.data) {
+    if (!resultRecipe?.data) {
       return {
         props: {
+          token: null,
+          recipe: {},
+          isSaved: false,
+          isLiked: false,
           error: "Not found",
         },
       };
+    }
+
+    if (token) {
+      const recipeId = resultRecipe?.data?.id;
+      const resultAction = await getActionRecipe({ token, recipeId });
+
+      isSaved = resultAction?.data?.is_saved ?? false;
+      isLiked = resultAction?.data?.is_liked ?? false;
     }
 
     return {
       props: {
         token: token,
         recipe: resultRecipe.data,
-        savedData: savedData,
-        likedData: likedData,
+        isSaved,
+        isLiked,
       },
     };
   } catch (error) {
@@ -76,13 +56,17 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
+        token: null,
+        recipe: {},
+        isSaved: false,
+        isLiked: false,
         error: "Failed to fetch recipe",
       },
     };
   }
 }
 
-const RecipePage = ({ recipe, token, savedData, likedData }) => {
+const RecipePage = ({ recipe, token, isSaved, isLiked }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   // const [alert, setAlert] = useState({
@@ -97,45 +81,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
       return;
     }
 
-    if (!savedData) {
-      dispatch(saveAction(id, token, router));
-      // try {
-      //   const result = await saveRecipe({ id, token });
-
-      //   setAlert({
-      //     status: "success",
-      //     message: result.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-
-      //   router.replace(router.asPath, undefined, { scroll: false });
-      // } catch (error) {
-      //   setAlert({
-      //     status: "failed",
-      //     message: error.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-      // }
-    } else {
-      dispatch(unsaveAction(id, token, router));
-      //   try {
-      //     const result = await deleteSaveRecipe({ id, token });
-
-      //     setAlert({
-      //       status: "success",
-      //       message: result.message,
-      //     });
-      //     setAlertKey((prevKey) => prevKey + 1);
-
-      //     router.replace(router.asPath, undefined, { scroll: false });
-      //   } catch (error) {
-      //     setAlert({
-      //       status: "failed",
-      //       message: error.message,
-      //     });
-      //     setAlertKey((prevKey) => prevKey + 1);
-      //   }
-    }
+    dispatch(saveAction(id, token, router));
   };
 
   const handleLike = async (id) => {
@@ -144,45 +90,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
       return;
     }
 
-    if (!likedData) {
-      dispatch(likeAction(id, token, router));
-      // try {
-      //   const result = await likeRecipe({ id, token });
-
-      //   setAlert({
-      //     status: "success",
-      //     message: result.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-
-      //   router.replace(router.asPath, undefined, { scroll: false });
-      // } catch (error) {
-      //   setAlert({
-      //     status: "failed",
-      //     message: error.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-      // }
-    } else {
-      dispatch(unlikeAction(id, token, router));
-      // try {
-      //   const result = await deleteLikeRecipe({ id, token });
-
-      //   setAlert({
-      //     status: "success",
-      //     message: result.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-
-      //   router.replace(router.asPath, undefined, { scroll: false });
-      // } catch (error) {
-      //   setAlert({
-      //     status: "failed",
-      //     message: error.message,
-      //   });
-      //   setAlertKey((prevKey) => prevKey + 1);
-      // }
-    }
+    dispatch(likeAction(id, token, router));
   };
 
   return (
@@ -200,7 +108,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
               {recipe?.title || `Unknown`}
             </h1>
             <div className="my-10 w-full 2xl:w-3/4  flex justify-between font-normal text-lg sm:text-2xl text-recipe-dark">
-              <h2>Made by {recipe?.author.name || `unknown`}</h2>
+              <h2>Made by {recipe?.author?.fullname || `unknown`}</h2>
               <h2 className="text-right">
                 {formatDistance(recipe?.created_at)}
               </h2>
@@ -209,7 +117,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
               <img
                 className="w-full h-full object-cover object-center"
                 src={
-                  recipe.image && recipe.image.startsWith("https://")
+                  recipe?.image && recipe.image.startsWith("https://")
                     ? recipe.image
                     : `/assets/icons/Default_Recipe_Image.png`
                 }
@@ -217,17 +125,13 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
               />
               <div className="absolute right-0 lg:right-10 bottom-0 lg:bottom-10 m-2 sm:m-5 lg:m-0 flex justify-end gap-1 sm:gap-2">
                 <Button
-                  onClick={
-                    savedData
-                      ? () => handleSave(savedData.id)
-                      : () => handleSave(recipe.id)
-                  }
+                  onClick={() => handleSave(recipe?.id)}
                   className={`${
-                    savedData
+                    isSaved
                       ? `bg-recipe-yellow-normal hover:bg-recipe-yellow-dark`
                       : `bg-white border hover:bg-recipe-yellow-normal`
                   } border-recipe-yellow-normal ${
-                    savedData
+                    isSaved
                       ? `text-white`
                       : `text-recipe-yellow-normal hover:text-white`
                   } w-10 h-10 sm:w-14 sm:h-14`}
@@ -235,17 +139,13 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
                   <BiBookmark className="mx-auto text-3xl sm:text-4xl" />
                 </Button>
                 <Button
-                  onClick={
-                    likedData
-                      ? () => handleLike(likedData.id)
-                      : () => handleLike(recipe.id)
-                  }
+                  onClick={() => handleLike(recipe?.id)}
                   className={`${
-                    likedData
+                    isLiked
                       ? `bg-recipe-yellow-normal hover:bg-recipe-yellow-dark`
                       : `bg-white border hover:bg-recipe-yellow-normal`
                   } border-recipe-yellow-normal ${
-                    likedData
+                    isLiked
                       ? `text-white`
                       : `text-recipe-yellow-normal hover:text-white`
                   } w-10 h-10 sm:w-14 sm:h-14`}
@@ -256,9 +156,9 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
             </div>
           </div>
 
-          <Ingredients description={recipe.description} />
+          <Ingredients description={recipe?.description} />
 
-          <VideoSteps data={[]} />
+          <VideoSteps data={recipe?.videos} />
 
           <div className="flex flex-col justify-between items-center gap-12 mx-auto">
             <Input type="textarea" placeholder="Comment :" />
@@ -268,7 +168,7 @@ const RecipePage = ({ recipe, token, savedData, likedData }) => {
               Send
             </Button>
 
-            <Comments data={[]} />
+            <Comments data={recipe?.comments} />
           </div>
         </div>
       </Container>
@@ -292,24 +192,37 @@ const Ingredients = ({ description }) => {
 };
 
 const VideoSteps = ({ data }) => {
-  if (data.length != 0) {
+  const router = useRouter();
+  if (data?.length != 0) {
     return (
       <div className="w-full py-6">
         <h2 className="font-normal text-5xl text-recipe-dark">Video Step</h2>
-        <div className="w-full my-8 flex flex-col justify-between gap-8">
-          <Button
-            className={`w-1/3 py-5 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
-          >
-            <img className="mx-auto" src="/assets/icons/play.png" alt="play" />
-          </Button>
-        </div>
+        {data?.map((video) => {
+          return (
+            <div
+              key={video.id}
+              className="w-full my-8 flex flex-col justify-between gap-8"
+            >
+              <Button
+                onClick={() => router.push(video?.url)}
+                className={`w-1/3 py-5 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
+              >
+                <img
+                  className="mx-auto"
+                  src="/assets/icons/play.png"
+                  alt="play"
+                />
+              </Button>
+            </div>
+          );
+        })}
       </div>
     );
   }
 };
 
 const Comments = ({ data }) => {
-  if (data.length != 0) {
+  if (data?.length != 0) {
     return (
       <div className="w-full py-6">
         <h2 className="pb-4 font-normal text-5xl text-recipe-dark">Comment</h2>

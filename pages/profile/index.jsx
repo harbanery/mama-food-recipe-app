@@ -12,19 +12,14 @@ import {
   BiTrash,
 } from "react-icons/bi";
 import Button from "../../components/base/Button";
-import {
-  getLikedRecipes,
-  getMyRecipes,
-  getSavedRecipes,
-} from "../../services/recipes";
 import { getProfile } from "../../services/user";
 import { parseCookies } from "../../utils/cookies";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import {
   deleteRecipeAction,
-  unlikeAction,
-  unsaveAction,
+  likeAction,
+  saveAction,
 } from "../../store/actions/recipeActions";
 
 export async function getServerSideProps(context) {
@@ -42,34 +37,16 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    const [
-      resultUser,
-      resultMyRecipes,
-      resultSavedRecipes,
-      resultLikedRecipes,
-    ] = await Promise.all([
-      getProfile({ token }),
-      getMyRecipes({ token }),
-      getSavedRecipes({ token }),
-      getLikedRecipes({ token }),
-    ]);
+    const result = await getProfile({ token });
 
-    if (
-      !resultUser ||
-      !resultMyRecipes ||
-      !resultSavedRecipes ||
-      !resultLikedRecipes
-    ) {
+    if (!result) {
       throw new Error("Failed to fetch data");
     }
 
     return {
       props: {
         token: token,
-        user: resultUser.data,
-        myRecipes: resultMyRecipes.data,
-        savedRecipes: resultSavedRecipes.data,
-        likedRecipes: resultLikedRecipes.data,
+        user: result.data,
       },
     };
   } catch (error) {
@@ -77,15 +54,21 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
+        token: token,
+        user: {},
         error: "Failed to fetch data",
       },
     };
   }
 }
 
-const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
+const Profile = ({ token, user }) => {
   const [recipeMenu, setRecipeMenu] = useState(`self`);
   const [visible, setVisible] = useState(false);
+
+  const myRecipes = user?.my_recipes ?? [];
+  const savedRecipes = user?.saved_recipes ?? [];
+  const likedRecipes = user?.liked_recipes ?? [];
 
   const handleClickOutside = (event) => {
     const isDropdown = event.target.closest(".profile-dropdown-menu");
@@ -112,7 +95,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
       <Navbar className={`absolute top-0`} />
 
       <Container className={`pt-48 pb-12`}>
-        <section className="flex flex-col justify-center items-center gap-10">
+        <section className="flex flex-col justify-center items-center gap-5">
           <div className="w-44 h-44 relative ">
             <div className=" w-full h-full rounded-[100%] border overflow-hidden">
               <img
@@ -123,7 +106,7 @@ const Profile = ({ token, user, myRecipes, savedRecipes, likedRecipes }) => {
             </div>
             <BiPencil className="absolute right-0 bottom-0 text-2xl text-recipe-yellow-normal" />
           </div>
-          <h1 className="font-medium text-2xl ">{user.name}</h1>
+          <h1 className="font-medium text-2xl ">{user.fullname}</h1>
         </section>
         <section className="pt-24 relative">
           <ul className="mx-10 sm:mx-[143px] flex justify-around min-[520px]:justify-between xl:justify-start items-center gap-12 min-[520px]:gap-16 lg:gap-24 font-medium text-xl sm:text-2xl text-recipe-corral">
@@ -242,12 +225,12 @@ const MyRecipe = ({ myRecipes = [], token }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleUpdate = (id) => {
-    router.push(`/recipe/update/${id}`);
+  const handleUpdate = (slug) => {
+    router.push(`/recipe/update/${slug}`);
   };
 
-  const handleRead = (id) => {
-    router.push(`/recipe/${id}`);
+  const handleRead = (slug) => {
+    router.push(`/recipe/${slug}`);
   };
 
   const handleDelete = (id) => {
@@ -276,31 +259,31 @@ const MyRecipe = ({ myRecipes = [], token }) => {
       ) : (
         myRecipes.map((recipe) => (
           <div
-            key={recipe.id}
+            key={recipe?.id}
             className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
               className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
               src={
-                recipe.image && recipe.image.startsWith("https://")
+                recipe?.image && recipe.image.startsWith("https://")
                   ? recipe.image
                   : `/assets/icons/Default_Recipe_Image.png`
               }
-              alt={recipe.title}
+              alt={recipe?.title}
             />
             <span className="absolute left-0 bottom-0 rounded-[10px] bg-[#ffffffd8] p-2 m-5 text-recipe-dark">
-              {recipe.title}
+              {recipe?.title}
             </span>
             <div className="absolute right-0 top-0 m-3 flex justify-end gap-2">
               <Button
                 className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
-                onClick={() => handleRead(recipe.id)}
+                onClick={() => handleRead(recipe?.slug)}
               >
                 <BiNavigation className="mx-auto text-2xl" />
               </Button>
               <Button
                 className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
-                onClick={() => handleUpdate(recipe.id)}
+                onClick={() => handleUpdate(recipe?.slug)}
               >
                 <BiPencil className="mx-auto text-2xl" />
               </Button>
@@ -322,12 +305,12 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleRead = (id) => {
-    router.push(`/recipe/${id}`);
+  const handleRead = (slug) => {
+    router.push(`/recipe/${slug}`);
   };
 
   const handleDelete = (id) => {
-    dispatch(unsaveAction(id, token, router));
+    dispatch(saveAction(id, token, router));
   };
 
   return (
@@ -352,7 +335,7 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
       ) : (
         savedRecipes.map((save) => (
           <div
-            key={save.id}
+            key={save?.recipe.id}
             className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
@@ -370,13 +353,13 @@ const SavedRecipe = ({ savedRecipes = [], token }) => {
             <div className="absolute right-0 top-0 m-3 flex justify-end gap-2">
               <Button
                 className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
-                onClick={() => handleRead(save.recipe_id)}
+                onClick={() => handleRead(save.recipe.slug)}
               >
                 <BiNavigation className="mx-auto text-2xl" />
               </Button>
               <Button
                 className={`w-10 h-10 border bg-recipe-yellow-normal hover:bg-recipe-yellow-dark border-recipe-yellow-normal text-white `}
-                onClick={() => handleDelete(save.id)}
+                onClick={() => handleDelete(save.recipe.id)}
               >
                 <BiBookmark className="mx-auto text-2xl" />
               </Button>
@@ -392,12 +375,12 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleRead = (id) => {
-    router.push(`/recipe/${id}`);
+  const handleRead = (slug) => {
+    router.push(`/recipe/${slug}`);
   };
 
   const handleDelete = (id) => {
-    dispatch(unlikeAction(id, token, router));
+    dispatch(likeAction(id, token, router));
   };
 
   return (
@@ -422,7 +405,7 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
       ) : (
         likedRecipes.map((like) => (
           <div
-            key={like.id}
+            key={like.recipe.id}
             className="w-full lg:w-[45%] xl:w-[23%] h-64 rounded-[10px] overflow-hidden relative hover:shadow-lg transition-shadow duration-300"
           >
             <img
@@ -440,13 +423,13 @@ const LikedRecipe = ({ likedRecipes = [], token }) => {
             <div className="absolute right-0 top-0 m-3 flex justify-end gap-2">
               <Button
                 className={`w-10 h-10 bg-white border hover:bg-recipe-yellow-normal border-recipe-yellow-normal text-recipe-yellow-normal hover:text-white `}
-                onClick={() => handleRead(like.recipe_id)}
+                onClick={() => handleRead(like.recipe.slug)}
               >
                 <BiNavigation className="mx-auto text-2xl" />
               </Button>
               <Button
                 className={`w-10 h-10 border bg-recipe-yellow-normal hover:bg-recipe-yellow-dark border-recipe-yellow-normal text-white `}
-                onClick={() => handleDelete(like.id)}
+                onClick={() => handleDelete(like.recipe.id)}
               >
                 <BiLike className="mx-auto text-2xl" />
               </Button>

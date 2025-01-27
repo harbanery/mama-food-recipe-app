@@ -102,7 +102,7 @@ const AddRecipe = ({ token }) => {
                   <BiImage className="text-4xl md:text-6xl" />
                   <span>{`Add Photo`}</span>
                   <span>{`PNG, JPG, or JPEG`}</span>
-                  <span>{`Size Maximum 800x600`}</span>
+                  <span>{`Max 2 MB`}</span>
                 </div>
               ) : (
                 <div className="w-full h-full rounded-[15px] overflow-hidden">

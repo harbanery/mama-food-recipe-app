@@ -10,7 +10,7 @@ import {
   BiFilter,
   BiSortDown,
 } from "react-icons/bi";
-import { getAllRecipes, getTotalRecipesCount } from "../services/recipes";
+import { getAllRecipes } from "../services/recipes";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useRef, useState } from "react";
 
@@ -20,27 +20,26 @@ export async function getServerSideProps(context) {
   const limit = 20;
 
   try {
-    const [resultRecipes, recipesCount] = await Promise.all([
-      getAllRecipes({
-        keyword: search,
-        limit,
-        page: parseInt(page, 10),
-        sorting: sort,
-        orderBy: order,
-      }),
-      getTotalRecipesCount({ keyword: search, limit }),
-    ]);
+    const result = await getAllRecipes({
+      keyword: search,
+      limit,
+      page: parseInt(page, 10),
+      sorting: sort,
+      orderBy: order,
+    });
 
-    if (!resultRecipes || !recipesCount) {
+    if (!result) {
       throw new Error("Failed to fetch data");
     }
 
+    console.log("result", result);
+
     return {
       props: {
-        recipes: resultRecipes.data,
+        recipes: result?.data?.records || [],
         search,
         page: parseInt(page, 10),
-        totalPage: recipesCount.total,
+        totalPage: result?.data?.page_total || 1,
         sort,
         order,
         limit,
@@ -49,7 +48,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.error("Failed to fetch popular recipes:", error);
     return {
       props: {
         recipes: [],
@@ -60,7 +58,7 @@ export async function getServerSideProps(context) {
         order,
         limit,
         status: "failed",
-        error: "Failed to fetch popular recipes",
+        error: "Failed to fetch",
       },
     };
   }
@@ -111,6 +109,24 @@ const BrowsePage = ({
 const ParamTools = ({ sort, order }) => {
   const router = useRouter();
   const dropdownRef = useRef(null);
+  const sortArray = [
+    {
+      label: "Title",
+      name: "title",
+    },
+    {
+      label: "Date Created",
+      name: "created_at",
+    },
+    {
+      label: "Date Updated",
+      name: "updated_at",
+    },
+    {
+      label: "Popularity",
+      name: "popularity",
+    },
+  ];
 
   const handleOrder = () => {
     let selectOrder = "";
@@ -169,27 +185,16 @@ const ParamTools = ({ sort, order }) => {
           <BiFilter className="text-4xl text-recipe-obsidian mx-auto" />
         </label>
         <div className="w-[150%] sm:w-full lg:w-[200%] h-auto bg-white border border-recipe-yellow-normal shadow-lg rounded-none lg:absolute lg:right-0 lg:top-[100px] hidden peer-checked:block">
-          <Button
-            onClick={() => handleSort("title")}
-            className="w-full py-5 border-b border-recipe-yellow-normal rounded-none"
-            disabled={sort == "title" ? true : false}
-          >
-            Title
-          </Button>
-          <Button
-            onClick={() => handleSort("created_at")}
-            className="w-full py-5 border-b border-recipe-yellow-normal rounded-none"
-            disabled={sort == "created_at" ? true : false}
-          >
-            Date Created
-          </Button>
-          <Button
-            onClick={() => handleSort("updated_at")}
-            className="w-full py-5 border-recipe-yellow-normal rounded-none"
-            disabled={sort == "updated_at" ? true : false}
-          >
-            Date Updated
-          </Button>
+          {sortArray.map((item) => (
+            <Button
+              key={item.name}
+              onClick={() => handleSort(item.name)}
+              className="w-full py-5 border-b border-recipe-yellow-normal rounded-none"
+              disabled={sort == item.name ? true : false}
+            >
+              {item.label}
+            </Button>
+          ))}
         </div>
       </div>
       <Button

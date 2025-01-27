@@ -12,28 +12,29 @@ export async function getServerSideProps() {
   try {
     const [resultPopularRecipes, resultPopularForUser, resultNewestRecipe] =
       await Promise.all([
-        getAllRecipes({ limit: 6 }),
-        getAllRecipes({ limit: 2 }),
-        getAllRecipes({ limit: 1, sorting: `created_at`, orderBy: `desc` }),
+        getAllRecipes({ limit: 6, sorting: `popularity` }),
+        getAllRecipes({ limit: 2, sorting: `popularity`, order: `asc` }),
+        getAllRecipes({ limit: 1 }),
       ]);
 
-    if (!resultPopularRecipes || !resultPopularForUser) {
+    if (!resultPopularRecipes || !resultPopularForUser || !resultNewestRecipe) {
       throw new Error("Failed to fetch data");
     }
 
     return {
       props: {
-        popularRecipes: resultPopularRecipes.data,
-        popularForUser: resultPopularForUser.data,
-        newestRecipe: resultNewestRecipe.data,
+        popularRecipes: resultPopularRecipes.data.records,
+        popularForUser: resultPopularForUser.data.records,
+        newestRecipe: resultNewestRecipe.data.records,
       },
     };
   } catch (error) {
-    console.error("Failed to fetch popular recipes:", error);
+    console.error("Failed to fetch recipes:", error);
     return {
       props: {
         popularRecipes: [],
-        error: "Failed to fetch popular recipes",
+        popularForUser: [],
+        newestRecipe: [],
       },
     };
   }
@@ -95,13 +96,13 @@ export default function Home({ popularRecipes, popularForUser, newestRecipe }) {
           <SubTitle>Popular Recipe</SubTitle>
 
           <ListPopularRecipe recipes={popularRecipes} />
-          <Link href={`/browse`} className="mx-auto">
+          {/* <Link href={`/browse`} className="mx-auto">
             <Button
               className={`px-[50px] py-4 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-2xl`}
             >
               Load More
             </Button>
-          </Link>
+          </Link> */}
         </section>
       </Container>
 
@@ -122,12 +123,13 @@ const SubTitle = ({ className, children }) => {
 };
 
 const PopularForYou = ({ recipes }) => {
+  const popularForYouRecipes = recipes || [];
   return (
     <div className="flex gap-10">
-      {recipes.map((recipe) => (
+      {popularForYouRecipes?.map((recipe) => (
         <Link
-          href={`/recipe/${recipe.id}`}
-          key={recipe.id}
+          href={`/recipe/${recipe?.slug}`}
+          key={recipe?.id}
           className="w-1/3 relative"
         >
           <div className="w-full bg-white overflow-hidden rounded-[20px] transition-shadow duration-500 hover:shadow-lg">
@@ -135,16 +137,16 @@ const PopularForYou = ({ recipes }) => {
               <img
                 className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
                 src={
-                  recipe.image && recipe.image.startsWith("https://")
+                  recipe?.image && recipe.image.startsWith("https://")
                     ? recipe.image
                     : `/assets/icons/Default_Recipe_Image.png`
                 }
-                alt={recipe.title}
+                alt={recipe?.title}
               />
             </div>
           </div>
           <h2 className="absolute rounded-[15px] bg-[#ffffffd8] p-2 2xl:p-4 left-0 bottom-0 m-5 lg:m-10 2xl:m-[60px] font-medium text-base lg:text-lg xl:text-xl 2xl:text-[42px] 2xl:leading-10 text-recipe-dark ">
-            {recipe.title}
+            {recipe?.title}
           </h2>
         </Link>
       ))}
@@ -153,6 +155,17 @@ const PopularForYou = ({ recipes }) => {
 };
 
 const NewestRecipe = ({ recipe }) => {
+  const newRecipe = {
+    id: recipe?.id ?? null,
+    title: recipe?.title ?? "Default Recipe Title",
+    header: recipe?.header ?? "This is recipe header",
+    slug: recipe?.slug ?? "default-recipe-slug",
+    image:
+      recipe?.image && recipe.image.startsWith("https://")
+        ? recipe.image
+        : "/assets/icons/Default_Recipe_Image.png",
+  };
+
   return (
     <div className="flex flex-col lg:flex-row flex-nowrap justify-between gap-20 xl:gap-40 2xl:gap-60">
       <div className="w-full xl:w-1/2 relative">
@@ -160,26 +173,23 @@ const NewestRecipe = ({ recipe }) => {
           <div className="aspect-w-1 aspect-h-1 overflow-hidden">
             <img
               className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform hover:scale-110"
-              src={
-                recipe.image && recipe.image.startsWith("https://")
-                  ? recipe.image
-                  : `/assets/icons/Default_Recipe_Image.png`
-              }
-              alt={recipe.title}
+              src={newRecipe.image}
+              alt={newRecipe.title}
             />
           </div>
         </div>
       </div>
       <div className="mt-0 2xl:mt-20 w-full xl:w-1/2">
         <h1 className="font-medium text-4xl sm:text-[54px] sm:leading-[72px]">
-          {recipe.title}
+          {newRecipe.title}
         </h1>
         <div className="w-16 2xl:w-[100px] border-2 border-recipe-yellow-dark mt-6 mb-10"></div>
-        <p className="font-base text-2xl leading-8 mb-10">
-          {recipe.title} is a brand new and exciting recipe. You should
-          definitely check it out!
-        </p>
-        <Link href={`/recipe/${recipe.id}`}>
+        {newRecipe.header ? (
+          <p className="font-base text-2xl leading-8 mb-10">
+            {newRecipe.header}
+          </p>
+        ) : null}
+        <Link href={`/recipe/${newRecipe.slug}`}>
           <Button
             className={`px-[50px] py-5 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base mx-auto`}
           >
@@ -192,25 +202,26 @@ const NewestRecipe = ({ recipe }) => {
 };
 
 const ListPopularRecipe = ({ recipes }) => {
+  const listPopularRecipes = Array.isArray(recipes) ? recipes : [];
   return (
     <div className="flex flex-wrap justify-around gap-14">
-      {recipes.map((recipe) => (
+      {listPopularRecipes?.map((recipe) => (
         <Link
-          href={`/recipe/${recipe.id}`}
-          key={recipe.id}
+          href={`/recipe/${recipe?.slug}`}
+          key={recipe?.id}
           className={`bg-white rounded-[15px] w-full md:w-2/5 lg:w-[28%] xl:w-[29.5%] after:content-[""] after:block after:pb-[100%] relative overflow-hidden transition-shadow duration-500 hover:shadow-lg`}
         >
           <img
             className=" absolute w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300 ease-in-out"
             src={
-              recipe.image && recipe.image.startsWith("https://")
+              recipe?.image && recipe.image.startsWith("https://")
                 ? recipe.image
                 : `/assets/icons/Default_Recipe_Image.png`
             }
-            alt={recipe.title}
+            alt={recipe?.title}
           />
           <h2 className="absolute rounded-[15px] bg-[#ffffffd8] p-2 left-0 bottom-0 m-5 md:m-2 xl:m-5 2xl:m-10 font-medium text-base lg:text-lg xl:text-xl 2xl:text-[28px] 2xl:leading-10 text-recipe-dark ">
-            {recipe.title || `Unknown Recipe Name`}
+            {recipe?.title || `Unknown Recipe Name`}
           </h2>
         </Link>
       ))}

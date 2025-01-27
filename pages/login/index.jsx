@@ -6,10 +6,9 @@ import Head from "next/head";
 import Button from "../../components/base/Button";
 import InputAuth from "../../components/base/Input/auth";
 import Link from "next/link";
-import Alert from "../../components/base/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrorForms, loginAction } from "../../store/actions/authActions";
-import { BiArrowBack, BiRightArrowAlt } from "react-icons/bi";
+import { BiArrowBack } from "react-icons/bi";
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
@@ -112,6 +111,7 @@ const Login = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="Email"
+              autoComplete="off"
             >
               Email
             </InputAuth>
@@ -129,7 +129,7 @@ const Login = () => {
               I agree to terms & conditions
             </InputAuth>
             <Button
-              className={`w-full h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
+              className={`w-full h-12 xl:h-16 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-base`}
               onClick={handleSubmit}
             >
               Log in

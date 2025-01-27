@@ -6,9 +6,8 @@ import Container from "../../../components/base/Container";
 import Navbar from "../../../components/module/Navbar";
 import Footer from "../../../components/module/Footer";
 import Button from "../../../components/base/Button";
-import { getRecipeById } from "../../../services/recipes";
+import { getRecipe } from "../../../services/recipes";
 import { parseCookies } from "../../../utils/cookies";
-import Alert from "../../../components/base/Alert";
 import Input from "../../../components/base/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrorForms } from "../../../store/actions/authActions";
@@ -31,7 +30,7 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    const result = await getRecipeById({ id });
+    const result = await getRecipe({ slug: id });
 
     if (!result || !result.data) {
       throw new Error("Failed to fetch recipe data");
