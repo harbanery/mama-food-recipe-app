@@ -283,7 +283,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
           onClick={() => handlePage(1)}
         >
           1
-        </Button>
+        </Button>,
       );
 
       if (page > 2) {
@@ -293,7 +293,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             className="flex justify-center items-center w-[32px] h-full text-center"
           >
             ...
-          </span>
+          </span>,
         );
       }
 
@@ -305,7 +305,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             onClick={() => handlePage(page)}
           >
             {page}
-          </Button>
+          </Button>,
         );
       }
 
@@ -316,7 +316,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             className="flex justify-center items-center w-[32px] h-full text-center"
           >
             ...
-          </span>
+          </span>,
         );
       }
 
@@ -330,7 +330,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             onClick={() => handlePage(totalPage)}
           >
             {totalPage}
-          </Button>
+          </Button>,
         );
       }
     } else {
@@ -343,7 +343,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
           onClick={() => handlePage(1)}
         >
           1
-        </Button>
+        </Button>,
       );
 
       if (page > 3 && totalPage > 4) {
@@ -353,7 +353,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             className="flex justify-center items-center w-[76px] h-full text-center"
           >
             ...
-          </span>
+          </span>,
         );
       }
 
@@ -368,7 +368,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(2)}
             >
               2
-            </Button>
+            </Button>,
           );
         }
         if (totalPage > 2) {
@@ -381,7 +381,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(3)}
             >
               3
-            </Button>
+            </Button>,
           );
         }
       }
@@ -397,7 +397,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(page - 1)}
             >
               {page - 1}
-            </Button>
+            </Button>,
           );
         }
 
@@ -408,7 +408,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             onClick={() => handlePage(page)}
           >
             {page}
-          </Button>
+          </Button>,
         );
 
         if (page < totalPage - 1) {
@@ -421,7 +421,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(page + 1)}
             >
               {page + 1}
-            </Button>
+            </Button>,
           );
         }
       }
@@ -437,7 +437,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(totalPage - 2)}
             >
               {totalPage - 2}
-            </Button>
+            </Button>,
           );
         }
         if (totalPage > 2) {
@@ -450,7 +450,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
               onClick={() => handlePage(totalPage - 1)}
             >
               {totalPage - 1}
-            </Button>
+            </Button>,
           );
         }
       }
@@ -462,7 +462,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             className="flex justify-center items-center w-[76px] h-full text-center"
           >
             ...
-          </span>
+          </span>,
         );
       }
 
@@ -476,7 +476,7 @@ const Pagination = ({ data, status, page, totalPage }) => {
             onClick={() => handlePage(totalPage)}
           >
             {totalPage}
-          </Button>
+          </Button>,
         );
       }
     }
@@ -511,7 +511,9 @@ const BrowseData = ({ keyword, data, status, error }) => {
   if (status == "failed")
     return (
       <section className="px-10 py-36 sm:px-[135px] flex flex-col gap-6 justify-center items-center">
-        <h1 className="font-normal text-4xl text-red-800">Error: {error}</h1>
+        <h1 className="font-normal text-4xl text-red-800">
+          Data not found. Please try again
+        </h1>
       </section>
     );
 

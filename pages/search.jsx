@@ -66,6 +66,7 @@ const LoadMoreButton = ({ data, limit, status, callback }) => {
 };
 
 const SearchPage = ({ keyword, data, status, error }) => {
+  console.error(error);
   if (status == "loading")
     return (
       <section className="px-10 py-36 sm:px-[135px] flex flex-col gap-6 justify-center items-center">
@@ -73,10 +74,10 @@ const SearchPage = ({ keyword, data, status, error }) => {
         <h1 className="font-normal text-4xl">Loading...</h1>
       </section>
     );
-  if (status == "failed")
+  else if (status == "failed")
     return (
       <section className="px-10 py-36 sm:px-[135px] flex flex-col gap-6 justify-center items-center">
-        <h1 className="font-normal text-4xl text-red-800">Error: {error}</h1>
+        <h1 className="font-normal text-4xl text-red-800">Data Not Found</h1>
       </section>
     );
 

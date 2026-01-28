@@ -1,6 +1,6 @@
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_URL;
 const actionUrl = `${BASE_URL}/action`;
 
 export async function saveRecipe({ id, token }) {
@@ -14,7 +14,7 @@ export async function saveRecipe({ id, token }) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     return {
@@ -40,7 +40,7 @@ export async function likeRecipe({ id, token }) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     return {

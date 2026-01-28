@@ -1,6 +1,6 @@
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_URL;
 const uploadUrl = `${BASE_URL}/upload`;
 
 export async function uploadImage({ file }) {

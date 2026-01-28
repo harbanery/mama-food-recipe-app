@@ -1,6 +1,6 @@
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_URL;
 const authUrl = `${BASE_URL}`;
 
 export async function register({ form }) {

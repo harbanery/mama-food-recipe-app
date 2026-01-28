@@ -7,6 +7,7 @@ import Container from "../components/base/Container";
 import Button from "../components/base/Button";
 import { getAllRecipes } from "../services/recipes";
 import clsx from "clsx";
+import Image from "next/image";
 
 export async function getServerSideProps() {
   try {
@@ -50,7 +51,7 @@ export default function Home({ popularRecipes, popularForUser, newestRecipe }) {
       <Navbar className={`absolute top-0`} home={true} />
 
       <Container
-        className={`bg-recipe-yellow-light flex justify-between h-screen`}
+        className={`bg-recipe-yellow-light flex justify-between h-screen relative`}
       >
         <section className=" px-10 sm:px-[135px] w-full my-auto">
           <div
@@ -60,51 +61,63 @@ export default function Home({ popularRecipes, popularForUser, newestRecipe }) {
             <h1 className="">& Delicious Food</h1>
           </div>
 
-          <SearchBar className={`lg:w-5/6 xl:w-[670px] `} />
-        </section>
-
-        <aside className="hidden xl:block w-5/12 relative bg-recipe-yellow-normal">
-          <img
-            className="absolute min-w-[370px] w-full top-60 2xl:top-20 -left-52 2xl:-left-72 z-50 transition-transform duration-300 ease-in-out"
-            src="/assets/group icons/Group 700.png"
-            alt="Food Image"
+          <SearchBar
+            className={`lg:max-w-5/6 xl:max-w-[560px] 2xl:max-w-[70%]`}
           />
-        </aside>
-      </Container>
-
-      <Container className={`bg-recipe-yellow-light hidden md:block`}>
-        <section className="py-20 flex flex-col gap-24 xl:gap-48 ">
-          <SubTitle className={`px-10 sm:px-[135px] `}>
-            Popular For You !
-          </SubTitle>
-
-          <PopularForYou recipes={popularForUser} />
         </section>
+
+        <aside className="hidden xl:block w-5/12 bg-recipe-yellow-normal"></aside>
+
+        <div className="hidden xl:block absolute w-[35%] right-[9%] top-1/2 -translate-y-1/2 z-50">
+          <Image
+            className="transition-transform duration-300 ease-in-out"
+            src="/assets/bg/food-recipe.png"
+            alt=""
+            width={878}
+            height={870}
+          />
+        </div>
       </Container>
 
-      <Container className={`bg-recipe-yellow-light relative`}>
-        <div className="hidden lg:block absolute left-0 bottom-0 2xl:bottom-32 w-1/4 h-2/4 bg-recipe-yellow-normal"></div>
-        <section className="px-10 sm:px-[135px] py-20 flex flex-col gap-24 xl:gap-48 ">
-          <SubTitle>New Recipe</SubTitle>
+      {Array.isArray(popularForUser) && popularForUser.length > 0 && (
+        <Container className={`bg-recipe-yellow-light hidden md:block`}>
+          <section className="py-20 flex flex-col gap-24 xl:gap-48 ">
+            <SubTitle className={`px-10 sm:px-[135px] `}>
+              Popular For You !
+            </SubTitle>
 
-          <NewestRecipe recipe={newestRecipe[0]} />
-        </section>
-      </Container>
+            <PopularForYou recipes={popularForUser} />
+          </section>
+        </Container>
+      )}
 
-      <Container className={`bg-recipe-yellow-light`}>
-        <section className="px-10 py-14 sm:px-[135px] flex flex-col gap-24">
-          <SubTitle>Popular Recipe</SubTitle>
+      {Array.isArray(newestRecipe) && newestRecipe.length > 0 && (
+        <Container className={`bg-recipe-yellow-light relative`}>
+          <div className="hidden lg:block absolute left-0 bottom-0 2xl:bottom-32 w-1/4 h-2/4 bg-recipe-yellow-normal"></div>
+          <section className="px-10 sm:px-[135px] py-20 flex flex-col gap-24 xl:gap-48 ">
+            <SubTitle>New Recipe</SubTitle>
 
-          <ListPopularRecipe recipes={popularRecipes} />
-          {/* <Link href={`/browse`} className="mx-auto">
+            <NewestRecipe recipe={newestRecipe[0]} />
+          </section>
+        </Container>
+      )}
+
+      {Array.isArray(popularRecipes) && popularRecipes.length > 0 && (
+        <Container className={`bg-recipe-yellow-light`}>
+          <section className="px-10 py-14 sm:px-[135px] flex flex-col gap-24">
+            <SubTitle>Popular Recipe</SubTitle>
+
+            <ListPopularRecipe recipes={popularRecipes} />
+            {/* <Link href={`/browse`} className="mx-auto">
             <Button
               className={`px-[50px] py-4 bg-recipe-yellow-normal hover:bg-recipe-yellow-dark text-white font-medium text-2xl`}
             >
               Load More
             </Button>
           </Link> */}
-        </section>
-      </Container>
+          </section>
+        </Container>
+      )}
 
       <Footer />
     </Container>
